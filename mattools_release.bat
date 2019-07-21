@@ -1,0 +1,1 @@
+XCOPY /s c:\xampp\htdocs\mattools\*.* \\10.70.17.165\c\xampp\htdocs\mat\

@@ -1,0 +1,14 @@
+{
+	"name" : "Cicool component bundle",
+	"description" : "cicool default compnent",
+	"type" : "page",
+    "version" : "1.0",
+    "author" : "cicool",
+    "regid" : "cicool-component-bundle",
+	"routes" : [
+		"administrator/page/(:any)"
+	],
+	"loader" : [
+		"cicool-component-bundle.php"
+	]
+}

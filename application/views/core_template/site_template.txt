@@ -1,0 +1,13 @@
+{php_tag_open}
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/*
+|--------------------------------------------------------------------------
+| Base Site URL
+|--------------------------------------------------------------------------
+|
+| Your site name,
+|
+*/
+$config['site_name'] = '{site_name}';
+$config['version'] = '{version}';

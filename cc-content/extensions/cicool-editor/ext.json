@@ -1,0 +1,14 @@
+{
+	"name" : "cicool editor",
+	"description" : "cicool default editor",
+	"type" : "page",
+    "version" : "1.0",
+    "author" : "cicool",
+    "regid" : "cicool-editor",
+	"routes" : [
+		"administrator/page/*"
+	],
+	"loader" : [
+		"cicool-editor.php"
+	]
+}

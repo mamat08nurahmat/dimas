@@ -1,0 +1,14 @@
+{
+	"name" : "cicool medium font",
+	"description" : "cicool medium font editor",
+	"type" : "page",
+    "version" : "1.0",
+    "author" : "cicool",
+    "regid" : "cicool-medium-font",
+	"routes" : [
+		"administrator/page/*"
+	],
+	"loader" : [
+		"medium-font-family.php"
+	]
+}
