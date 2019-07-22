@@ -5,7 +5,7 @@
         class kontak {
         
             /* method untuk menampilkan data kontak */
-            function view() {
+            function view_is_pemimpin($no_kontak_pemohon) {
                 // memanggil file database.php
                 require_once "config/database.php";
         
@@ -16,8 +16,28 @@
                 $mysqli = $db->connect();
         
                 // sql statement untuk mengambil semua data kontak
-                $sql = "SELECT * FROM form_kontak ORDER BY id DESC";
-        
+                $sql = "
+                SELECT * FROM form_kontak 
+                WHERE kelompok IN(
+                SELECT kelompok FROM form_kontak WHERE no_kontak=$no_kontak_pemohon
+                )
+                 AND pemimpin=1
+                ";
+
+                // $sql = "
+                // SELECT 
+                // a.nama as nama_pemimpin
+                // ,a.no_kontak as no_kontak_pemimpin
+                // ,b.nama as nama_pemohon
+                // ,b.no_kontak as no_kontak_pemohon
+
+                // FROM form_kontak a 
+                // LEFT JOIN form kontak b ON a.kelompok=b.kelompok
+                // WHERE a.pemimpin=1
+                // AND b.no_kontak=$no_kontak_pemohon    
+                // ";
+                
+
                 $result = $mysqli->query($sql);
         
                 while ($data = $result->fetch_assoc()) {
@@ -30,6 +50,38 @@
                 // nilai kembalian dalam bentuk array
                 return $hasil;
             }
+
+            function view_detail($no_kontak) {
+                // memanggil file database.php
+                require_once "config/database.php";
+        
+                // membuat objek db dengan nama $db
+                $db = new database();
+        
+                // membuka koneksi ke database
+                $mysqli = $db->connect();
+        
+                // sql statement untuk mengambil semua data kontak
+                $sql = "
+                SELECT * FROM form_kontak 
+                WHERE no_kontak=$no_kontak
+                ";
+
+
+                $result = $mysqli->query($sql);
+        
+                while ($data = $result->fetch_assoc()) {
+                    $hasil[] = $data;
+                }
+        
+                // menutup koneksi database
+                $mysqli->close();
+        
+                // nilai kembalian dalam bentuk array
+                return $hasil;
+            }
+
+
 //dev 21072019
             /* method untuk menampilkan data kontak */
             function view_pemimpin($no_kontak) {

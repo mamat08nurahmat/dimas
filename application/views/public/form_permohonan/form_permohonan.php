@@ -3,60 +3,62 @@
 
 
 <?= form_open('', [
-    'name'    => 'form_form_kontak', 
-    'class'   => 'form-horizontal form_form_kontak', 
-    'id'      => 'form_form_kontak',
+    'name'    => 'form_form_permohonan', 
+    'class'   => 'form-horizontal form_form_permohonan', 
+    'id'      => 'form_form_permohonan',
     'enctype' => 'multipart/form-data', 
     'method'  => 'POST'
 ]); ?>
  
 <div class="form-group ">
-    <label for="nama" class="col-sm-2 control-label">Nama 
+    <label for="no_pemohon" class="col-sm-2 control-label">No Pemohon 
     <i class="required">*</i>
     </label>
     <div class="col-sm-8">
-        <input type="text" class="form-control" name="nama" id="nama" placeholder=""  >
+        <input type="text" class="form-control" name="no_pemohon" id="no_pemohon" placeholder=""  >
         <small class="info help-block">
         </small>
     </div>
 </div>
  
 <div class="form-group ">
-    <label for="no_kontak" class="col-sm-2 control-label">No Kontak 
+    <label for="no_pemimpin" class="col-sm-2 control-label">No Pemimpin 
     <i class="required">*</i>
     </label>
     <div class="col-sm-8">
-        <input type="text" class="form-control" name="no_kontak" id="no_kontak" placeholder=""  >
+        <input type="text" class="form-control" name="no_pemimpin" id="no_pemimpin" placeholder=""  >
         <small class="info help-block">
         </small>
     </div>
 </div>
  
 <div class="form-group ">
-    <label for="kelompok" class="col-sm-2 control-label">Kelompok 
+    <label for="hal" class="col-sm-2 control-label">Hal 
     <i class="required">*</i>
     </label>
     <div class="col-sm-8">
-        <input type="text" class="form-control" name="kelompok" id="kelompok" placeholder=""  >
+        <select  class="form-control chosen chosen-select" name="hal" id="hal" data-placeholder="Select Hal" >
+            <option value=""></option>
+            <option value="UPGRADE LEVEL">UPGRADE LEVEL</option>
+            </select>
         <small class="info help-block">
         </small>
     </div>
 </div>
  
 <div class="form-group ">
-    <label for="pemimpin" class="col-sm-2 control-label">Pemimpin 
-    <i class="required">*</i>
+    <label for="is_approved" class="col-sm-2 control-label">Is Approved 
     </label>
     <div class="col-sm-6">
         <div class="col-md-2 padding-left-0">
             <label>
-                <input type="radio" class="flat-red" name="pemimpin" id="pemimpin"  value="1" >
+                <input type="radio" class="flat-red" name="is_approved" id="is_approved"  value="1" >
                 Yes
             </label>
         </div>
         <div class="col-md-14">
             <label>
-                <input type="radio" class="flat-red" name="pemimpin" id="pemimpin"  value="0">
+                <input type="radio" class="flat-red" name="is_approved" id="is_approved"  value="0">
                 No
             </label>
         </div>
@@ -99,14 +101,14 @@
       $('.btn_save').click(function(){
         $('.message').fadeOut();
             
-        var form_form_kontak = $('#form_form_kontak');
-        var data_post = form_form_kontak.serializeArray();
+        var form_form_permohonan = $('#form_form_permohonan');
+        var data_post = form_form_permohonan.serializeArray();
         var save_type = $(this).attr('data-stype');
     
         $('.loading').show();
     
         $.ajax({
-          url: BASE_URL + 'form/form_kontak/submit',
+          url: BASE_URL + 'form/form_permohonan/submit',
           type: 'POST',
           dataType: 'json',
           data: data_post,

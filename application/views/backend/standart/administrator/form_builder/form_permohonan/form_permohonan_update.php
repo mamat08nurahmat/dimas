@@ -26,11 +26,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Kontak        <small><?= cclang('update'); ?> Kontak</small>
+        Permohonan        <small><?= cclang('update'); ?> Permohonan</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class=""><a  href="<?= site_url('administrator/form_kontak'); ?>">Kontak</a></li>
+        <li class=""><a  href="<?= site_url('administrator/form_permohonan'); ?>">Permohonan</a></li>
         <li class="active"><?= cclang('update'); ?></li>
     </ol>
 </section>
@@ -48,64 +48,66 @@
                                 <img class="img-circle" src="<?= BASE_ASSET; ?>/img/add2.png" alt="User Avatar">
                             </div>
                             <!-- /.widget-user-image -->
-                            <h3 class="widget-user-username">Kontak</h3>
-                            <h5 class="widget-user-desc">Edit Kontak</h5>
+                            <h3 class="widget-user-username">Permohonan</h3>
+                            <h5 class="widget-user-desc">Edit Permohonan</h5>
                             <hr>
                         </div>
-                        <?= form_open(base_url('administrator/form_kontak/edit_save/'.$this->uri->segment(4)), [
-                            'name'    => 'form_form_kontak', 
+                        <?= form_open(base_url('administrator/form_permohonan/edit_save/'.$this->uri->segment(4)), [
+                            'name'    => 'form_form_permohonan', 
                             'class'   => 'form-horizontal', 
-                            'id'      => 'form_form_kontak', 
+                            'id'      => 'form_form_permohonan', 
                             'method'  => 'POST'
                             ]); ?>
                          
                                                 <div class="form-group ">
-                            <label for="nama" class="col-sm-2 control-label">Nama 
+                            <label for="no_pemohon" class="col-sm-2 control-label">No Pemohon 
                             <i class="required">*</i>
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="nama" value="<?= set_value('nama', $form_kontak->nama); ?>" id="nama" placeholder=""  >
+                                <input type="text" class="form-control" name="no_pemohon" value="<?= set_value('no_pemohon', $form_permohonan->no_pemohon); ?>" id="no_pemohon" placeholder=""  >
                                 <small class="info help-block">
                                 </small>
                             </div>
                         </div>
                                                  
                                                 <div class="form-group ">
-                            <label for="no_kontak" class="col-sm-2 control-label">No Kontak 
+                            <label for="no_pemimpin" class="col-sm-2 control-label">No Pemimpin 
                             <i class="required">*</i>
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="no_kontak" value="<?= set_value('no_kontak', $form_kontak->no_kontak); ?>" id="no_kontak" placeholder=""  >
+                                <input type="text" class="form-control" name="no_pemimpin" value="<?= set_value('no_pemimpin', $form_permohonan->no_pemimpin); ?>" id="no_pemimpin" placeholder=""  >
                                 <small class="info help-block">
                                 </small>
                             </div>
                         </div>
                                                  
                                                 <div class="form-group ">
-                            <label for="kelompok" class="col-sm-2 control-label">Kelompok 
+                            <label for="hal" class="col-sm-2 control-label">Hal 
                             <i class="required">*</i>
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="kelompok" value="<?= set_value('kelompok', $form_kontak->kelompok); ?>" id="kelompok" placeholder=""  >
+                                <select  class="form-control chosen chosen-select" name="hal" id="hal" data-placeholder="Select Hal" >
+                                    <option value=""></option>
+                                    <option <?= $form_permohonan->hal == "UPGRADE LEVEL" ? 'selected' :''; ?> value="UPGRADE LEVEL">UPGRADE LEVEL</option>
+                                    </select>
                                 <small class="info help-block">
                                 </small>
                             </div>
                         </div>
                                                  
                                                 <div class="form-group ">
-                            <label for="pemimpin" class="col-sm-2 control-label">Pemimpin 
-                            <i class="required">*</i>
+                            <label for="is_approved" class="col-sm-2 control-label">Is Approved 
                             </label>
                             <div class="col-sm-6">
                                 <div class="col-md-2 padding-left-0">
                                     <label>
-                                        <input type="radio" class="flat-red" name="pemimpin" id="pemimpin"  value="1"  <?= $form_kontak->pemimpin == "1" ? "checked" : ""; ?>>
+                                        <input type="radio" class="flat-red" name="is_approved" id="is_approved"  value="1"  <?= $form_permohonan->is_approved == "1" ? "checked" : ""; ?>>
                                         <?= cclang('yes'); ?>
                                     </label>
                                 </div>
                                 <div class="col-md-14">
                                     <label>
-                                        <input type="radio" class="flat-red" name="pemimpin" id="pemimpin"  value="0" <?= $form_kontak->pemimpin == "0" ? "checked" : ""; ?>>
+                                        <input type="radio" class="flat-red" name="is_approved" id="is_approved"  value="0" <?= $form_permohonan->is_approved == "0" ? "checked" : ""; ?>>
                                         <?= cclang('no'); ?>
                                     </label>
                                 </div>
@@ -113,7 +115,8 @@
                                 </small>
                             </div>
                         </div>
-                                                
+                                                 
+                        
                         <div class="message"></div>
                         <div class="row-fluid col-md-7">
                             <button class="btn btn-flat btn-primary btn_save btn_action" id="btn_save" data-stype='stay' title="<?= cclang('save_button'); ?> (Ctrl+s)">
@@ -159,7 +162,7 @@
           },
           function(isConfirm){
             if (isConfirm) {
-              window.location.href = BASE_URL + 'administrator/form_kontak';
+              window.location.href = BASE_URL + 'administrator/form_permohonan';
             }
           });
     
@@ -169,22 +172,22 @@
       $('.btn_save').click(function(){
         $('.message').fadeOut();
             
-        var form_form_kontak = $('#form_form_kontak');
-        var data_post = form_form_kontak.serializeArray();
+        var form_form_permohonan = $('#form_form_permohonan');
+        var data_post = form_form_permohonan.serializeArray();
         var save_type = $(this).attr('data-stype');
         data_post.push({name: 'save_type', value: save_type});
     
         $('.loading').show();
     
         $.ajax({
-          url: form_form_kontak.attr('action'),
+          url: form_form_permohonan.attr('action'),
           type: 'POST',
           dataType: 'json',
           data: data_post,
         })
         .done(function(res) {
           if(res.success) {
-            var id = $('#form_kontak_image_galery').find('li').attr('qq-file-id');
+            var id = $('#form_permohonan_image_galery').find('li').attr('qq-file-id');
             if (save_type == 'back') {
               window.location.href = res.redirect;
               return;

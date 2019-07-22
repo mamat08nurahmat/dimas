@@ -1,5 +1,16 @@
 <?php
 
+// require_once 'permohonan.php';
+// $permohonan = new permohonan();
+// $no_kontak_pemimpin='6282217559925';
+// $hasil = $permohonan->view_detail($no_kontak_pemimpin);
+// print_r($hasil);die();
+// $no_pemimpin='0811111111111';
+// $no_pemohon='08222222222222';
+
+// $res = $permohonan->insert($no_pemimpin,$no_pemohon);
+// print_r($res);die();
+
 // require_once 'order.php';
 // // // require_once 'grab.php';
 // $order = new order();
@@ -44,14 +55,14 @@
 //==========
 // require_once 'kontak.php';
 
-// // membuat objek siswa
-// $siswa = new kontak();
+// // // membuat objek siswa
+// $kontak = new kontak();
 
 
-// // $no_kontak_pemesan=str_replace('@c.us','',$chatId);
-// //tes
-// $no_kontak_pemesan= '6287711086938';
-// $result = $siswa->view_pemimpin($no_kontak_pemesan);
+// // // $no_kontak_pemesan=str_replace('@c.us','',$chatId);
+// // //tes
+// $no_kontak_pemohon= 6287711086938;
+// $result = $kontak->view_detail($no_kontak_pemohon);
 // print_r($result);die();
 
 // ================
@@ -88,6 +99,9 @@
                         case 'grab#order':     {$this->grab_order($message['chatId']); break;}
                         case 'grab#yes':     {$this->grab_yes($message['chatId']); break;}
                         case 'grab#no':     {$this->grab_no($message['chatId']); break;}
+                        
+                        case 'upgrade#me':     {$this->upgrade_me($message['chatId']); break;}
+                        case 'upgrade#yes':     {$this->upgrade_yes($message['chatId']); break;}
 
 
                             // case 'me':     {$this->me($message['chatId'],$message['senderName']); break;}
@@ -104,14 +118,13 @@
                         //@param $chatId [string] [required] - the ID of chat where we send a message
                         //@param $text [string] [required] - text of the message
                         public function welcome($chatId, $noWelcome = false){
-                        $welcomeString = ($noWelcome) ? "Incorrect command\n" : "WhatsApp BNI SLN \n";
+                        $welcomeString = ($noWelcome) ? "Incorrect command\n" : "Welcome to WhatsApp BNI SLN Tools \n";
                         $this->sendMessage($chatId,
                         $welcomeString.
-                        "Commands:\n".
-                        "1. GRAB ORDER \n".
-                        "2. BBBBBBBBBBBBBBBBBBBBBBBBB \n".
-                        "3. CCCCCCCCCCCCCCCCCCCCCCCCC \n".
-                        "--------------------------------"
+                        "------------------------------------------------\n".
+                        "Untuk melakukan pemesan  \n".
+                        "ketik GRAB#ORDER \n".
+                        "--------------------------------------------------"
                         );
                         }
 
@@ -150,109 +163,244 @@
                             //Pesan ke pemimpin                        
                             $this->sendMessage($nomer_tujuan_pemimpin,
                         
-                                "------------------------------ \n".
-                                "ID ORDER:".$res."\n".
-                                "NAMA PEMESAN  :".$nama_pemesan."\n".
-                                "NO PEMESAN    :".$no_kontak_pemesan." \n".
-                                "KELOMPOK      :".$kelompok."\n".
-                                // "KODE           :".$row['kode']."\n".
-                                "CONFIRM  ? [GRAB#YES/GRAB#NO]      :\n".
-                                // "EXPIRED   :".$row['expired']."\n".
-                                "---------------------------------"
+                                "-------------------------------------- \n".
+                                "ID_ORDER       :".$res."\n".
+                                "NAMA PEMESAN   :".strtoupper($nama_pemesan)."\n".
+                                "NO PEMESAN     :".$no_kontak_pemesan." \n".
+                                "KELOMPOK       :".$kelompok."\n".
+                                "-_______________________________________ \n".
+                                "CONFIRM  ?                              \n".
+                                "KETIK [GRAB#YES] UNTUK APPROVE      :\n".
+                                "KETIK [GRAB#NO]  UNTUK CANCEL      :\n".
+                                "------------------------------------------"
                             );
 
                             //Pesan ke pemesan                        
                             $this->sendMessage($nomer_tujuan_pemesan,
                         
-                                "------------------------------ \n".
-                                "ID ORDER:".$res."\n".
-                                "NAMA PEMESAN  :".$nama_pemesan."\n".
-                                "KELOMPOK      :".$kelompok."\n".
-                                // "KODE           :".$row['kode']."\n".
-                                "STATUS       :WAITING APPROVE BY ".$no_kontak_pemimpin." \n".
-                                // "EXPIRED   :".$row['expired']."\n".
-                                "---------------------------------"
+                                "------------------------------------ \n".
+                                "ID ORDER       :".$res."\n".
+                                "NAMA PEMESAN   :".$nama_pemesan."\n".
+                                "KELOMPOK       :".$kelompok."\n".
+                                "STATUS         :WAITING APPROVE BY ".$no_kontak_pemimpin." \n".
+                                "-----------------------------------------"
+
                             );
 
 
                         }
 
-// dev 21072019
-public function grab_yes($chatId){
+                    // dev 21072019
+                    public function grab_yes($chatId){
 
-    require_once 'order.php';
-    require_once 'grab.php';
-    $order = new order();
-    $grab = new grab();    
+                        require_once 'order.php';
+                        require_once 'grab.php';
+                        $order = new order();
+                        $grab = new grab();    
+                        
+                        $no_kontak_pemimpin=str_replace('@c.us','',$chatId);
+                        
+                    //UPDATE ORDER HARI SEKARANG DAN SET KODE_GRAB
+
+                    $res = $grab->view();
+                    $kode_grab =$res[0]['kode_grab'];
+                    $id_grab =$res[0]['id'];
+                    // print_r($kode_grab);die();
+
+                    $update_grab_yes = $order->update_grab_yes($kode_grab,$no_kontak_pemimpin);
+                    // print_r($update_grab_yes);die();
+
+                    $hasil = $order->view_order($kode_grab);
+                    $id_order = $hasil[0]['id'];
+                    $no_kontak_pemimpin = $hasil[0]['no_pemimpin'];
+                    $no_kontak_pemesan = $hasil[0]['no_pemesan'];
+                    // print_r($id_order);die();
+
+                    $update_grab = $grab->update_grab($kode_grab,$id_order);
+
+
+                    $nomer_tujuan_pemimpin=$no_kontak_pemimpin.'@c.us';    
+                    $nomer_tujuan_pemesan=$no_kontak_pemesan.'@c.us';    
+
+                        
+                        //Pesan Konfirmasi ke pemimpin                        
+                        $this->sendMessage($nomer_tujuan_pemimpin,
+
+                            "------------------------------------ \n".
+                            "ID ORDER      :".$id_order."\n".
+                            "KODE GRAB     :".$kode_grab."\n".
+                            "NO PEMESAN    :".$no_kontak_pemesan." \n".
+                            // "KELOMPOK      :".$kelompok."\n".
+                            // "KODE           :".$row['kode']."\n".
+                            "STATUS        : IS APPROVED by".$no_kontak_pemimpin." \n".
+                            // "EXPIRED     :".$row['expired']."\n".
+                            "---------------------------------"
+                        );
+
+                        //Pesan ke pemesan                        
+                        $this->sendMessage($nomer_tujuan_pemesan,
+
+                        "------------------------------------- \n".
+                        "ID ORDER       :".$id_order."\n".
+                        "KODE GRAB      :".$kode_grab."\n".
+                        "NO PEMESAN     :".$no_kontak_pemesan." \n".
+                        // "KELOMPOK      :".$kelompok."\n".
+                        // "KODE           :".$row['kode']."\n".
+                        "STATUS         : IS APPROVED by ".$no_kontak_pemimpin." \n".
+                        // "EXPIRED   :".$row['expired']."\n".
+                        "----------------------------------------"
+                        
+                        );
+
+
+                    }
+
+
+                    // dev 21072019
+                    public function grab_no($chatId){
+
+                        require_once 'order.php';
+                        // require_once 'kontak.php';
+                        $order = new order();
+                        // $kontak = new kontak();    
+                        
+                        $no_kontak_pemimpin=str_replace('@c.us','',$chatId);
+                        
+                    //UPDATE ORDER HARI SEKARANG DAN SET KODE_GRAB
+
+                    // $res = $grab->view();
+                    // $kode_grab =$res[0]['kode_grab'];
+                    // $id_grab =$res[0]['id'];
+                    // // print_r($kode_grab);die();
+
+                    $update_grab_no = $order->update_grab_no($no_kontak_pemimpin);
+                    // // // print_r($update_grab_yes);die();
+                    $view_grab_no = $order->view_grab_no($no_kontak_pemimpin);
+                    $no_kontak_pemesan = $view_grab_no[0]['no_pemesan']; 
+                    $id_order = $view_grab_no[0]['id']; 
+                    // $hasil = $order->view_order($kode_grab);
+                    // $id_order = $hasil[0]['id'];
+                    // $no_kontak_pemimpin = $hasil[0]['no_pemimpin'];
+                    // $no_kontak_pemesan = $hasil[0]['no_pemesan'];
+                    // // print_r($id_order);die();
+
+                    // $update_grab = $grab->update_grab($kode_grab,$id_order);
+
+
+                    $nomer_tujuan_pemimpin=$no_kontak_pemimpin.'@c.us';    
+                    $nomer_tujuan_pemesan=$no_kontak_pemesan.'@c.us';    
+
+                        
+                        //Pesan Konfirmasi ke pemimpin                        
+                        $this->sendMessage($nomer_tujuan_pemimpin,
+
+                            "------------------------------------- \n".
+                            "ID ORDER       :".$id_order."\n".
+                            // "KODE GRAB  :".$kode_grab."\n".
+                            "NO PEMESAN     :".$no_kontak_pemesan." \n".
+                            // "KELOMPOK      :".$kelompok."\n".
+                            // "KODE           :".$row['kode']."\n".
+                            "STATUS         : IS CANCEL by ".$no_kontak_pemimpin." \n".
+                            // "EXPIRED   :".$row['expired']."\n".
+                            "-----------------------------------------"
+                        );
+
+                        //Pesan ke pemesan                        
+                        $this->sendMessage($nomer_tujuan_pemesan,
+
+                        "---------------------------------------- \n".
+                        "ID ORDER       :".$id_order."\n".
+                        // "KODE GRAB  :".$kode_grab."\n".
+                        "NO PEMESAN     :".$no_kontak_pemesan." \n".
+                        // "KELOMPOK      :".$kelompok."\n".
+                        // "KODE           :".$row['kode']."\n".
+                        "STATUS         : IS CANCEL by ".$no_kontak_pemimpin." \n".
+                        // "EXPIRED   :".$row['expired']."\n".
+                        "----------------------------------------"
+                        
+                        );
+
+
+                    }
+
+
+
+// dev me#upgrade 21072019
+public function upgrade_me($chatId){
+
+    require_once 'kontak.php';
+    require_once 'permohonan.php';
+    $permohonan = new permohonan();
+    $kontak = new kontak();
     
-    $no_kontak_pemimpin=str_replace('@c.us','',$chatId);
     
-//UPDATE ORDER HARI SEKARANG DAN SET KODE_GRAB
+    $no_kontak_pemohon=str_replace('@c.us','',$chatId);
 
-$res = $grab->view();
-$kode_grab =$res[0]['kode_grab'];
-$id_grab =$res[0]['id'];
-// print_r($kode_grab);die();
-
-$update_grab_yes = $order->update_grab_yes($kode_grab,$no_kontak_pemimpin);
-// print_r($update_grab_yes);die();
-
-$hasil = $order->view_order($kode_grab);
-$id_order = $hasil[0]['id'];
-$no_kontak_pemimpin = $hasil[0]['no_pemimpin'];
-$no_kontak_pemesan = $hasil[0]['no_pemesan'];
-// print_r($id_order);die();
-
-$update_grab = $grab->update_grab($kode_grab,$id_order);
-
-
-$nomer_tujuan_pemimpin=$no_kontak_pemimpin.'@c.us';    
-$nomer_tujuan_pemesan=$no_kontak_pemesan.'@c.us';    
-
+    //tes
+    // $no_kontak_pemesan= '6287711086938';
+    $result = $kontak->view_is_pemimpin($no_kontak_pemohon);
+    $result2 = $kontak->view_detail($no_kontak_pemohon);
     
-    //Pesan Konfirmasi ke pemimpin                        
+    // $no_kontak_pemimpin = $result[0]['no_kontak'];    
+    // $kelompok=$result[0]['kelompok'];
+    // $nama_pemohon=$result[0]['nama_pemesan'];
+    $nama_pemimpin=$result[0]['nama'];
+    $no_kontak_pemimpin=$result[0]['no_kontak'];
+    $nomer_tujuan_pemimpin=$no_kontak_pemimpin.'@c.us';
+    
+    $kelompok=$result2[0]['kelompok'];
+
+    $nama_pemohon=$result2[0]['nama'];
+    // $no_kontak_pemohon=$result2[0]['no_kontak'];    
+    $nomer_tujuan_pemohon=$no_kontak_pemohon.'@c.us';    
+
+    $res = $permohonan->insert($no_kontak_pemimpin,$no_kontak_pemohon);
+
+
+    //Pesan ke Pemohon                        
+    $this->sendMessage($nomer_tujuan_pemohon,
+
+        "------------------------------------ \n".
+        // "ID ORDER       :".$res."\n".
+        "HAL            : UPGRADE LEVEL ACCESS PEMIMPIN \n".
+        "NAMA PEMOHON   :".strtoupper($nama_pemohon)."\n".
+        "KELOMPOK       :".$kelompok."\n".
+        "STATUS         :WAITING APPROVE BY ".$no_kontak_pemimpin." \n".
+        "-----------------------------------------"
+
+    );
+
+    //Pesan ke pemimpin                        
     $this->sendMessage($nomer_tujuan_pemimpin,
 
-        "------------------------------ \n".
-        "ID ORDER:".$id_order."\n".
-        "KODE GRAB  :".$kode_grab."\n".
-        "NO PEMESAN    :".$no_kontak_pemesan." \n".
-        // "KELOMPOK      :".$kelompok."\n".
-        // "KODE           :".$row['kode']."\n".
-        "STATUS : IS APPROVED by".$no_kontak_pemimpin." \n".
-        // "EXPIRED   :".$row['expired']."\n".
-        "---------------------------------"
+        "______________________________________________\n".
+        // "ID_ORDER       :".$res."\n".
+        "HAL            : UPGRADE LEVEL ACCESS PEMIMPIN \n".
+        "NAMA PEMOHON   :".strtoupper($nama_pemohon)."\n".
+        "NO PEMOHON     :".$no_kontak_pemohon." \n".
+        "KELOMPOK       :".$kelompok."\n".
+        "_______________________________________________ \n".
+        "CONFIRM TO UPGRADE LEVEL ACCESS PEMIMPIN ?   \n".
+        "KETIK [UPGRADE#YES] UNTUK APPROVE      \n".
+        "KETIK [UPGRADE#NO]  UNTUK CANCEL      \n".
+        "_______________________________________________"
     );
 
-    //Pesan ke pemesan                        
-    $this->sendMessage($nomer_tujuan_pemesan,
-
-    "------------------------------ \n".
-    "ID ORDER:".$id_order."\n".
-    "KODE GRAB  :".$kode_grab."\n".
-    "NO PEMESAN    :".$no_kontak_pemesan." \n".
-    // "KELOMPOK      :".$kelompok."\n".
-    // "KODE           :".$row['kode']."\n".
-    "STATUS : IS APPROVED by ".$no_kontak_pemimpin." \n".
-    // "EXPIRED   :".$row['expired']."\n".
-    "---------------------------------"
-    
-    );
 
 
 }
 
+// dev upgrade#yes 21072019
+public function upgrade_yes($chatId){
 
-// dev 21072019
-public function grab_no($chatId){
-
-    require_once 'order.php';
-    // require_once 'kontak.php';
-    $order = new order();
-    // $kontak = new kontak();    
+    require_once 'permohonan.php';
+    $permohonan = new permohonan();    
     
     $no_kontak_pemimpin=str_replace('@c.us','',$chatId);
-    
+    $hasil = $permohonan->view_detail($no_kontak_pemimpin);
+    $no_kontak_pemohon=$hasil[0]['no_pemohon'];
+
+    $permohonan->update_upgrade_yes($no_kontak_pemimpin,$no_kontak_pemohon);
 //UPDATE ORDER HARI SEKARANG DAN SET KODE_GRAB
 
 // $res = $grab->view();
@@ -260,11 +408,9 @@ public function grab_no($chatId){
 // $id_grab =$res[0]['id'];
 // // print_r($kode_grab);die();
 
-$update_grab_no = $order->update_grab_no($no_kontak_pemimpin);
-// // // print_r($update_grab_yes);die();
-$view_grab_no = $order->view_grab_no($no_kontak_pemimpin);
-$no_kontak_pemesan = $view_grab_no[0]['no_pemesan']; 
-$id_order = $view_grab_no[0]['id']; 
+// $update_grab_yes = $order->update_grab_yes($kode_grab,$no_kontak_pemimpin);
+// // print_r($update_grab_yes);die();
+
 // $hasil = $order->view_order($kode_grab);
 // $id_order = $hasil[0]['id'];
 // $no_kontak_pemimpin = $hasil[0]['no_pemimpin'];
@@ -275,40 +421,39 @@ $id_order = $view_grab_no[0]['id'];
 
 
 $nomer_tujuan_pemimpin=$no_kontak_pemimpin.'@c.us';    
-$nomer_tujuan_pemesan=$no_kontak_pemesan.'@c.us';    
+$nomer_tujuan_pemesan=$no_kontak_pemohon.'@c.us';    
 
     
     //Pesan Konfirmasi ke pemimpin                        
     $this->sendMessage($nomer_tujuan_pemimpin,
 
-        "------------------------------ \n".
-        "ID ORDER:".$id_order."\n".
-        // "KODE GRAB  :".$kode_grab."\n".
-        "NO PEMESAN    :".$no_kontak_pemesan." \n".
+        "------------------------------------ \n".
+        "HAL            : UPGRADE LEVEL ACCESS PEMIMPIN \n".
+        "NO PEMOHON    :".$no_kontak_pemohon." \n".
         // "KELOMPOK      :".$kelompok."\n".
         // "KODE           :".$row['kode']."\n".
-        "STATUS : IS CANCEL by ".$no_kontak_pemimpin." \n".
-        // "EXPIRED   :".$row['expired']."\n".
+        "STATUS        : IS APPROVED by \n".
+        // "EXPIRED     :".$row['expired']."\n".
         "---------------------------------"
     );
 
     //Pesan ke pemesan                        
     $this->sendMessage($nomer_tujuan_pemesan,
 
-    "------------------------------ \n".
-    "ID ORDER:".$id_order."\n".
-    // "KODE GRAB  :".$kode_grab."\n".
-    "NO PEMESAN    :".$no_kontak_pemesan." \n".
+    "------------------------------------ \n".
+    "HAL            : UPGRADE LEVEL ACCESS PEMIMPIN \n".
+    "NO PEMOHON    :".$no_kontak_pemohon." \n".
     // "KELOMPOK      :".$kelompok."\n".
     // "KODE           :".$row['kode']."\n".
-    "STATUS : IS CANCEL by ".$no_kontak_pemimpin." \n".
-    // "EXPIRED   :".$row['expired']."\n".
-    "---------------------------------"
+    "STATUS        : IS APPROVED by \n".
+    // "EXPIRED     :".$row['expired']."\n".
+    "----------------------------------------"
     
     );
 
 
 }
+
 
 
 // =====================================================================================
