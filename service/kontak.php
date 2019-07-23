@@ -122,7 +122,7 @@ WHERE a.pemimpin=1 AND b.no_kontak='$no_kontak'
 
 
             /* Method untuk menyimpan data ke tabel kontak */
-            function insert($nis, $nama, $tempat_lahir, $tanggal_lahir, $jenis_kelamin, $agama, $alamat, $no_telepon) {
+            function insert($nama,$no_kontak,$kelompok) {
                 // memanggil file database.php
                 require_once "config/database.php";
         
@@ -131,27 +131,18 @@ WHERE a.pemimpin=1 AND b.no_kontak='$no_kontak'
         
                 // membuka koneksi ke database
                 $mysqli = $db->connect();
-        
-                $nis          = $mysqli->real_escape_string($nis);
-                $nama         = $mysqli->real_escape_string($nama);
-                $tempat_lahir = $mysqli->real_escape_string($tempat_lahir);
-                $alamat       = $mysqli->real_escape_string($alamat);
+                        
+                // $nis          = $mysqli->real_escape_string($nis);
         
                 // sql statement untuk insert data kontak
-                $sql = "INSERT INTO db_kontak (nis,nama,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,alamat,no_telepon) 
-                        VALUES ('$nis','$nama','$tempat_lahir','$tanggal_lahir','$jenis_kelamin','$agama','$alamat','$no_telepon')";
+                $sql = "
+                INSERT INTO `form_kontak`(`id`, `nama`, `no_kontak`, `kelompok`, `pemimpin`) VALUES (NULL,'$nama','$no_kontak','$kelompok',0)                
+                ";
         
-                $result = $mysqli->query($sql);
+                 $result = $mysqli->query($sql);
+                 return $result;
+                //  return $last_id = $mysqli->insert_id; 
         
-                // cek hasil query
-                if($result){
-                    /* jika data berhasil disimpan alihkan ke halaman kontak dan tampilkan pesan = 2 */
-                    header("Location: index.php?alert=2");
-                }
-                else{
-                    /* jika data gagal disimpan alihkan ke halaman kontak dan tampilkan pesan = 1 */
-                    header("Location: index.php?alert=1");
-                }
         
                 // menutup koneksi database
                 $mysqli->close();
