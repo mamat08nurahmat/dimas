@@ -3,9 +3,9 @@
 
 class database {
 	// deklarasi parameter koneksi database
-	private $dbHost     = "png-mysql";
+	private $dbHost     ="34.67.111.165"; //"png-mysql";
 	private $dbUser     = "root";
-	private $dbPassword = "tiger";
+	private $dbPassword = "bnisln2019";
 	private $dbName     = "chatbotwa";
 	
 	public function connect() {
