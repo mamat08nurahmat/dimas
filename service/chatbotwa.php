@@ -115,8 +115,7 @@
                         $welcomeString.
                         "-------------------------------------------------------\n".
                         "Untuk melakukan pemesan \n".
-                        "ketik GRAB#ORDER \n".                                       
-                         " help? \n".                                                
+                        "ketik GRAB#ORDER \n".                                                                    
                         "--------------------------------------------------------"
                                                               
                         );
@@ -129,9 +128,7 @@
                         
                             "------HELP------------------------------------------\n".
                             "GRAB#ORDER --> UNTUK ORDER GRAB  \n".
-                            "CEK#STOK --> UNTUK CEK STOK  \n".
-                            "INSERT#USERS NAMA NO_KONTAK KELOMPOK LEVEL--> UNTUK MENAMBAH USER  \n".
-                                               
+                            "CEK#STOK --> UNTUK CEK STOK  \n".                                               
                             "------- \n".
                             "-----------------------------------------------------"
                             );
