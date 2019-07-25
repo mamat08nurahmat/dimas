@@ -114,9 +114,10 @@
                         $this->sendMessage($chatId,
                         $welcomeString.
                         "-------------------------------------------------------\n".
-                        "Untuk melakukan pemesan  \n".
-                        "ketik GRAB#ORDER \n".
+                        "Untuk melakukan pemesan \n".
+                        "ketik GRAB#ORDER \n".                                           
                         "--------------------------------------------------------"
+                         " help? \n".                                           
                         );
                         }
 
@@ -126,7 +127,10 @@
                             $this->sendMessage($chatId,
                         
                             "------HELP------------------------------------------\n".
-                            "------  \n".
+                            "GRAB#ORDER --> UNTUK ORDER GRAB  \n".
+                            "CEK#STOK --> UNTUK CEK STOK  \n".
+                            "INSERT#USERS NAMA NO_KONTAK KELOMPOK LEVEL--> UNTUK MENAMBAH USER  \n".
+                                               
                             "------- \n".
                             "-----------------------------------------------------"
                             );
