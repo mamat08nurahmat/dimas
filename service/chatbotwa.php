@@ -115,9 +115,10 @@
                         $welcomeString.
                         "-------------------------------------------------------\n".
                         "Untuk melakukan pemesan \n".
-                        "ketik GRAB#ORDER \n".                                           
+                        "ketik GRAB#ORDER \n".                                       
+                         " help? \n".                                                
                         "--------------------------------------------------------"
-                         " help? \n".                                           
+                                                              
                         );
                         }
 
