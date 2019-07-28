@@ -26951,3 +26951,16 @@
           'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'delivered'</font> <i>(length=9)</i>
   'instanceId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'53244'</font> <i>(length=5)</i>
 </pre>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/var/www/html/service/chatbotwa.php:50:</small>
+<b>array</b> <i>(size=2)</i>
+  'ack' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=1)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=4)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'true_6282217559925@c.us_3EB05E7F7DAB635B7F60'</font> <i>(length=44)</i>
+          'queueNumber' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>415</font>
+          'chatId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6282217559925@c.us'</font> <i>(length=18)</i>
+          'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'viewed'</font> <i>(length=6)</i>
+  'instanceId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'53244'</font> <i>(length=5)</i>
+</pre>
