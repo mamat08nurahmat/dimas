@@ -67,7 +67,7 @@
             }
         
             /* Method untuk menampilkan data order_grab berdasarkan nis */
-            function get_order_grab($nis) {
+            function get_order_grab($kontak) {
                 // memanggil file database.php
                 require_once "config/database.php";
         
@@ -78,7 +78,16 @@
                 $mysqli = $db->connect();
         
                 // sql statement untuk mengambil data order_grab berdasarkan nis
-                $sql = "SELECT * FROM db_order_grab WHERE nis='$nis'";
+                $sql = "
+                SELECT 
+                b.nama
+                ,b.kontak
+                ,b.kelompok
+                ,count(a.id) jumlah 
+                FROM form_order_grab a
+                LEFT JOIN form_users b ON a.no_pemesan=b.kontak
+                WHERE a.no_pemesan='$kontak'                
+                ";
         
                 $result = $mysqli->query($sql);
                 $data   = $result->fetch_assoc();

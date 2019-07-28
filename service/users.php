@@ -4,7 +4,75 @@
         /* class users */
         class users {
 
+// dev 26072019
+            /* Method untuk mengubah data pada tabel users */
+            function update_pemimpin($kontak) {
+                // memanggil file database.php
+                require_once "config/database.php";
+        
+                // membuat objek db dengan nama $db
+                $db = new database();
+        
+                // membuka koneksi ke database
+                $mysqli = $db->connect();
+        
+                // sql statement untuk update data users
+                $sql = "UPDATE `chatbotwa`.`form_users` SET `level`='1' WHERE `kontak`='$kontak'"; 
+        
+                $result = $mysqli->query($sql);
+        
+        
+                // menutup koneksi database
+                $mysqli->close();
 
+                return $result;
+            }
+
+
+
+            /* method untuk menampilkan data kontak pemimpin supporting*/
+            function get_pemimpin_sup() {
+                // memanggil file database.php
+                require_once "config/database.php";
+        
+                // membuat objek db dengan nama $db
+                $db = new database();
+        
+                // membuka koneksi ke database
+                $mysqli = $db->connect();
+        
+                // sql statement untuk mengambil semua data kontak
+                $sql = "
+                SELECT * FROM form_users 
+                WHERE kelompok='SUP' AND level=1
+                ";
+
+                // $sql = "
+                // SELECT 
+                // a.nama as nama_pemimpin
+                // ,a.no_kontak as no_kontak_pemimpin
+                // ,b.nama as nama_pemohon
+                // ,b.no_kontak as no_kontak_pemohon
+
+                // FROM form_kontak a 
+                // LEFT JOIN form kontak b ON a.kelompok=b.kelompok
+                // WHERE a.pemimpin=1
+                // AND b.no_kontak=$no_kontak_pemohon    
+                // ";
+                
+
+                $result = $mysqli->query($sql);
+        
+                while ($data = $result->fetch_assoc()) {
+                    $hasil[] = $data;
+                }
+        
+                // menutup koneksi database
+                $mysqli->close();
+        
+                // nilai kembalian dalam bentuk array
+                return $hasil;
+            }
             
             /* method untuk menampilkan data kontak */
             function get_pemimpin($no_kontak) {
@@ -53,7 +121,7 @@
                 return $hasil;
             }
 
-            function view_detail($no_kontak) {
+            function get_detail($no_kontak) {
                 // memanggil file database.php
                 require_once "config/database.php";
         
@@ -65,7 +133,7 @@
         
                 // sql statement untuk mengambil semua data kontak
                 $sql = "
-                SELECT * FROM `form_users` WHERE `kontak` ='6287711086938'
+                SELECT * FROM `form_users` WHERE `kontak` ='$no_kontak'
                 ";
 
 
@@ -81,6 +149,37 @@
                 // nilai kembalian dalam bentuk array
                 return $hasil;
             }
+
+
+// dev 25072019 
+function get_all_kelompok($kelompok) {
+    // memanggil file database.php
+    require_once "config/database.php";
+
+    // membuat objek db dengan nama $db
+    $db = new database();
+
+    // membuka koneksi ke database
+    $mysqli = $db->connect();
+
+    // sql statement untuk mengambil semua data kontak
+    $sql = "
+    SELECT * FROM `form_users` WHERE `kelompok` ='$kelompok'
+    ";
+
+
+    $result = $mysqli->query($sql);
+
+    while ($data = $result->fetch_assoc()) {
+        $hasil[] = $data;
+    }
+
+    // menutup koneksi database
+    $mysqli->close();
+
+    // nilai kembalian dalam bentuk array
+    return $hasil;
+}
 
 //====================================================            
             /* method untuk menampilkan data users */
@@ -112,6 +211,7 @@
         
             /* Method untuk menyimpan data ke tabel users */
             function insert($nama,$kontak,$kelompok,$level) {
+                // $level=2; //non pemimpin
                 // memanggil file database.php
                 require_once "config/database.php";
         
@@ -142,7 +242,7 @@
                 return $result;
             }
         
-            /* Method untuk menampilkan data users berdasarkan nis */
+            /* Method untuk menampilkan data users berdasarkan kontak */
             function get_users($kontak) {
                 // memanggil file database.php
                 require_once "config/database.php";
@@ -165,9 +265,9 @@
                 // nilai kembalian dalam bentuk array
                 return $data;
             }
-            
-            /* Method untuk mengubah data pada tabel users */
-            function update($nama, $tempat_lahir, $tanggal_lahir, $jenis_kelamin, $agama, $alamat, $no_telepon, $nis) {
+
+            /* Method untuk menampilkan data users berdasarkan kontak */
+            function get_kelompok($nama_kelompok) {
                 // memanggil file database.php
                 require_once "config/database.php";
         
@@ -177,34 +277,49 @@
                 // membuka koneksi ke database
                 $mysqli = $db->connect();
         
-                $nama         = $mysqli->real_escape_string($nama);
-                $tempat_lahir = $mysqli->real_escape_string($tempat_lahir);
-                $alamat       = $mysqli->real_escape_string($alamat);
-        
-                // sql statement untuk update data users
-                $sql = "UPDATE db_users SET nama            = '$nama',
-                                            tempat_lahir    = '$tempat_lahir',
-                                            tanggal_lahir   = '$tanggal_lahir',
-                                            jenis_kelamin   = '$jenis_kelamin',
-                                            agama           = '$agama',
-                                            alamat          = '$alamat',
-                                            no_telepon      = '$no_telepon'
-                                      WHERE nis             = '$nis'"; 
+                // sql statement untuk mengambil data users berdasarkan nis
+                $sql = "SELECT * FROM form_users WHERE kelompok='$nama_kelompok'";
         
                 $result = $mysqli->query($sql);
-        
-                // cek hasil query
-                if($result){
-                    /* jika data berhasil disimpan alihkan ke halaman users dan tampilkan pesan = 3 */
-                    header("Location: index.php?alert=3");
-                }
-                else{
-                    /* jika data gagal disimpan alihkan ke halaman users dan tampilkan pesan = 1 */
-                    header("Location: index.php?alert=1");
-                }
+                $data   = $result->fetch_assoc();
         
                 // menutup koneksi database
                 $mysqli->close();
+                
+                // nilai kembalian dalam bentuk array
+                return $data;
+            }
+            
+
+            /* Method untuk mengubah data pada tabel users */
+            function update($nama_update,$kontak_update,$kelompok_update,$level_update,$where_kontak_update) {
+                // memanggil file database.php
+                require_once "config/database.php";
+        
+                // membuat objek db dengan nama $db
+                $db = new database();
+        
+                // membuka koneksi ke database
+                $mysqli = $db->connect();
+        
+                // $nama         = $mysqli->real_escape_string($nama);
+                // $tempat_lahir = $mysqli->real_escape_string($tempat_lahir);
+                // $alamat       = $mysqli->real_escape_string($alamat);
+        
+                // sql statement untuk update data users
+                $sql = "UPDATE form_users SET nama    = '$nama_update',
+                                            kontak    = '$kontak_update',
+                                            kelompok  = '$kelompok_update',
+                                            level     = '$level_update'
+                                      WHERE kontak    = '$where_kontak_update'"; 
+        
+                $result = $mysqli->query($sql);
+        
+        
+                // menutup koneksi database
+                $mysqli->close();
+
+                return $result;
             }
             
             /* Method untuk menghapus data pada tabel users */

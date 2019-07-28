@@ -1,65 +1,46 @@
 <?php
-            // require_once 'users.php';
-            // $users = new users();
-            // $nama='XYZ';
-            // $kontak='621122334455';
-            // $kelompok='TES';
-            // $level='2';
-            // $res5 = $users->insert($nama,$kontak,$kelompok,$level);
-            // // $stok=$res5[0]['stok'];
-            // print_r($res5);die();
-// $id=3;
-// $res4 = $kode_grab->update($id);
-// print($res4);die();
-// $no_pemesan='6211111111111';
-// $no_pemimpin='623333333333';
-// $id_kode_grab='123';
-// $res = $order_grab->insert($no_pemesan,$no_pemimpin,$id_kode_grab);
-// $hasil = ($res!=1) ? "GAGAL \n" : "SUCCESS \n";
-// print_r($hasil);die();
-// // // require_once 'kontak.php';
-// // // $kontak = new kontak();
-// $kontak_pengirim='6287711086938';
-// $res = $users->get_pemimpin($kontak_pengirim);
-// $kontak_pemimpin =$res[0]['kontak'];
-// $nama_pemimpin =$res[0]['nama'];
-// $kelompok =$res[0]['kelompok'];    
 
-// // // $no_kontak_pemimpin=str_replace('@c.us','',$chatId);
-
-// // // //UPDATE ORDER HARI SEKARANG DAN SET KODE_GRAB
+// require_once 'order_grab.php';
+// $order_grab = new order_grab();
 // $kontak='6287711086938';
-// $res = $users->get_users($kontak);
-// $kontak_pengirim =$res['kontak'];
-// $nama_pengirim =$res['nama'];
-// // $kelompok =$res[0]['kelompok'];
-// // // $id_grab =$res[0]['id'];
+// $result = $order_grab->get_order_grab($kontak);
+// $nama=$result['nama'];
+// $kontak=$result['kontak'];
+// $jumlah=$result['jumlah'];
+// $jumlah=$result['kelompok'];
+// print_r($jumlah);die();
+// $input3='spo';
+// // $input4='2';
+// // $kontak='621122334455';
+// // $kelompok='TES';
+// // $level='2';
+// $no_kontak='62811843030';
+// // $no_kontak=str_replace('@c.us','',$chatId);
 
-// print_r($kontak_pemimpin);die();
+// $res6 = $users->get_kelompok(strtoupper($input3));
+// $ada_kelompok = count($res6['kelompok']);
+// $kelompok_terdaftar = ($ada_kelompok==0) ? "KELOMPOK BELUM TERDAFTAR \n" : "KELOMPOK SUDAH TERDAFTAR \n";
+// // print_r($kelompok_terdaftar);die();
 
 
 
+// $res5 = $users->get_users($no_kontak);
+// $ada_kontak = count($res5['kontak']);
 
-// require_once 'kode_grab.php';
-// $grab = new kode_grab();
- 
+// // $res5 = $users->insert(strtoupper($input2),$no_kontak,strtoupper($input3));
+// $kontak_terdaftar = ($ada_kontak==0) ? "KONTAK BELUM TERDAFTAR \n" : "KONTAK SUDAH TERDAFTAR \n";
+// print_r($kontak_terdaftar);die();
 
-// $no_kontak_pemimpin=str_replace('@c.us','',$chatId);
-
-// //UPDATE ORDER HARI SEKARANG DAN SET KODE_GRAB
-
-// $res = $grab->view_aktif();
-// $kode_grab =$res[0]['kode_grab'];
-// $id_grab =$res[0]['id'];
-
-// print_r($kode_grab);die();
 
                         class whatsAppBot{
                         //specify instance URL and token
                         var $APIurl = 'https://api.chat-api.com/instance53244/';
                         var $token = 'oedqhd1jfewd5io0';
+                        // var $pesan='';
+
 
                         public function __construct(){
+
                         //get the JSON body from the instance
                         $json = file_get_contents('php://input');
                         $decoded = json_decode($json,true);
@@ -70,14 +51,19 @@
                         $input = ob_get_contents();
                         ob_end_clean();
                         file_put_contents('input_requests.log',$input.PHP_EOL,FILE_APPEND);
-
+                                                
                         if(isset($decoded['messages'])){
-                        //check every new message
+                            //check every new message
                         foreach($decoded['messages'] as $message){
-                        //delete excess spaces and split the message on spaces. The first word in the message is a command, other words are parameters
-                        $text = explode(' ',trim($message['body']));
-                        //current message shouldn't be send from your bot, because it calls recursion
-                        if(!$message['fromMe']){
+                            //delete excess spaces and split the message on spaces. The first word in the message is a command, other words are parameters
+                            $text = explode(' ',trim($message['body']));
+                            //current message shouldn't be send from your bot, because it calls recursion
+                        
+                            
+
+
+                        if(!$message['fromMe'] ){
+
                         //check what command contains the first word and call the function
                         // $input = mb_strtolower($text[0],'UTF-8';
                         $input1 = mb_strtolower($text[0], 'UTF-8');
@@ -85,23 +71,34 @@
                         $input3 = mb_strtolower($text[2], 'UTF-8');
                         $input4 = mb_strtolower($text[3], 'UTF-8');
                         $input5 = mb_strtolower($text[4], 'UTF-8');
-                        switch(mb_strtolower($text[0],'UTF-8')){
+                        $input6 = mb_strtolower($text[5], 'UTF-8');
+                        $input7 = mb_strtolower($text[6], 'UTF-8');
+
+
+                        switch($input1){
                         case 'hi':  {$this->welcome($message['chatId'],false); break;}
 
                         case 'help':     {$this->help($message['chatId']); break;}
 
-                        // case 'grab':     {$this->grab($message['chatId'],$input1,$input2); break;}
-                       case 'insert#users':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4,$input5); break;}
+                        case 'grab':     {$this->grab($message['chatId'],$input1,$input2); break;}
 
+                        // case 'insert#users':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4,$input5); break;}
+                        case 'reg':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4); break;}
+                        case 'update':     {$this->update_users($message['chatId'],$input1,$input2,$input3,$input4,$input5,$input6); break;}
+                        //REG NAMA KELOMPOK
+                        // case 'view#users':     {$this->users_kelompok($message['chatId'],$input1,$input2); break;}
 
-                        case 'grab#order':     {$this->grab_order($message['chatId']); break;}
-                        case 'cek#stok':     {$this->cek_stok($message['chatId']); break;}
+                        // case 'grab#order':     {$this->grab_order($message['chatId']); break;}
+                        // case 'cek#stok':     {$this->cek_stok($message['chatId']); break;}
                         // case 'me':     {$this->me($message['chatId'],$message['senderName']); break;}
                             // case 'order':     {$this->order($message['chatId'],$message['senderName']); break;}
                             // case 'order':     {$this->order($message['chatId']); break;}
 
                         default:        {$this->welcome($message['chatId'],true); break;}
-                            }}
+                            }
+
+                            
+                        }
 
                         }}
                     }
@@ -110,31 +107,143 @@
                         //@param $chatId [string] [required] - the ID of chat where we send a message
                         //@param $text [string] [required] - text of the message
                         public function welcome($chatId, $noWelcome = false){
-                        $welcomeString = ($noWelcome) ? "Incorrect command\n" : "Welcome to WhatsApp BNI SLN Tools \n";
+                            date_default_timezone_set('Asia/Jakarta');
+
+                            // 24-hour format of an hour without leading zeros (0 through 23)
+                            $Hour = date('H');
+                            
+                            if ( $Hour >= 5 && $Hour <= 11 ) {
+                                $pesan= "Selemat Pagi";
+                            } else if ( $Hour >= 12 && $Hour <= 18 ) {
+                                $pesan= "Selemat Siang";
+                            } else if ( $Hour >= 19 || $Hour <= 4 ) {
+                                $pesan= "Selamat Malam";
+                            }                            
+
+                            require_once 'users.php';
+                            $users = new users();
+                            // $nama='XYZ';
+                            // $kontak='6287711086938';
+                            $kontak=str_replace('@c.us','',$chatId);
+                            $res = $users->get_detail($kontak);
+                            $nama=$res[0]['nama'];
+
+
+                        $welcomeString = ($noWelcome) ? "Typo bro..\n" : "Hi.. ".$nama."   \n";
                         $this->sendMessage($chatId,
                         $welcomeString.
+                        "".$pesan." \n".
+                        "Saya Bimo bisa Dibantu .. ? \n".
                         "-------------------------------------------------------\n".
                         "Untuk melakukan pemesan \n".
-                        "ketik GRAB#ORDER \n".                                       
-                         " help? \n".                                                
+                        "ketik GRAB<spasi>ORDER \n".    
+                        "--------------------------------------------------------\n".                                       
+                        "butuh bantuan? --> ketik help \n".                                                
                         "--------------------------------------------------------"
                                                               
                         );
                         }
+
+//dev 25072019
+public function grab($chatId,$input1,$input2){
+
+// dev 28072019
+require_once 'users.php';
+$users = new users();
+$no_kontak=str_replace('@c.us','',$chatId);
+$res5 = $users->get_users($no_kontak);
+$ada_kontak = count($res5['kontak']);
+
+// $res6 = $users->get_kelompok(strtoupper($input3));
+// $ada_kelompok = count($res6['kelompok']);
+
+if($ada_kontak>0){
+
+     switch(mb_strtolower($input2)){
+        //  case 'hi':  {$this->welcome($chatId,false); break;}
+
+        //  case 'help':     {$this->help($chatId); break;}
+
+         case 'order':    {
+            $this->grab_order($chatId);             
+         break;}
+
+         case 'info':    {
+            $this->grab_info($chatId);             
+         break;}
+         
+         case 'stok':    {
+            $this->cek_stok($chatId);             
+         break;}
+         
+         default:        {$this->welcome($chatId,true); break;}
+             }
+
+    // $this->grab_order($chatId);             
+
+}else{
+
+
+                                $text2=
+"Upps.. \n".
+"-------------------------------------------------------\n".
+"No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu untuk melakukan order  \n".
+"ketik REG<spasi>NAMA<spasi>KELOMPOK \n".    
+// "--------------------------------------------------------\n".                                       
+// "butuh bantuan? --> ketik help \n".                                                
+"--------------------------------------------------------";
+                                $data = array('chatId'=>$chatId,'body'=>$text2);
+                                $this->sendRequest('message',$data);
+
+}
+
+
+    
+
+    // $order = ($input2!='order') ? "Incorrect command\n" : "ORDER \n";
+    // $this->sendMessage($chatId,
+    // "------DEV------------------------------------------\n".
+    // "GRAB#ORDER --> UNTUK ORDER GRAB  \n".
+    // "INPUT 1 :".$input1."  \n".    
+    // "INPUT 2 :".$input2."  \n".
+    // "===>> :".$order."  \n".                     
+    // "------- \n".
+    // "-----------------------------------------------------"
+    // );
+
+
+
+    }
+
 
 
                         public function help($chatId){
                         
                             $this->sendMessage($chatId,
                         
-                            "------HELP------------------------------------------\n".
-                            "GRAB#ORDER --> UNTUK ORDER GRAB  \n".
-                            "CEK#STOK --> UNTUK CEK STOK  \n".
-                            "INSERT#USERS NAMA NO_KONTAK KELOMPOK LEVEL--> UNTUK MENAMBAH USER  \n".
-                                               
-                            "------- \n".
-                            "-----------------------------------------------------"
+                            "--------------------------------------------------------\n".                                       
+                            "#untuk order voucher grab  \n".
+                            "KETIK GRAB<spasi>ORDER   \n".
+                            "--------------------------------------------------------\n".                                       
+                            "#untuk info order voucher grab  \n".
+                            "KETIK GRAB<spasi>INFO   \n".
+                            "--------------------------------------------------------\n".                                       
+                            // "GRAB STOK --> untuk melihat stok voucher grab  \n".
+                            // "REG TEST MERCHANT 1  --> untuk menambah kelompok baru dengan level pemimpin  \n".
+                            "#untuk registrasi user  \n".
+                            "KETIK REG<spasi>NAMA_PANGGIL<spasi>KELOMPOK \n".                                               
+                            "--> contoh  \n".                                               
+                            "REG TOPENG SPO  \n".                                               
+                            "--------------------------------------------------------\n".                                       
+                            "#untuk update user  \n".
+                            "KETIK UPDATE<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU \n".                                               
+                            "--> contoh  \n".                                               
+                            "UPDATE FRENDY 62123456789 SPO  \n".                                               
+                            "--------------------------------------------------------\n".                                       
+                            "KIRIM KE 6281932477899 \n".
+                            "--------------------------------------------------------"
                             );
+                            
                             }
 
                             public function grab_order($chatId_pengirim){
@@ -156,16 +265,30 @@
                                 $kode_grab =$res[0]['kode_grab'];
                                 $expired =$res[0]['expired'];
                                 $id_kode_grab =$res[0]['id'];
-
-                                // $no_kontak_pemimpin=str_replace('@c.us','',$chatId_pemimpin);
-                                $res = $users->get_pemimpin($kontak_pengirim);
-                                $kontak_pemimpin =$res[0]['kontak'];
-                                $nama_pemimpin =$res[0]['nama'];
-                                $kelompok =$res[0]['kelompok'];  
-
+                                
                                 $res2 = $users->get_users($kontak_pengirim);
-                              
                                 $nama_pengirim =$res2['nama'];
+                                $level_pengirim =$res2['level'];
+//dev 28072019
+if($level_pengirim==1){
+// jika level pemimpin akan dikirim ke pemimpin sup
+
+    $res1 = $users->get_pemimpin_sup();
+    $kontak_pemimpin =$res1[0]['kontak'];
+    $nama_pemimpin =$res1[0]['nama'];
+    $kelompok =$res1[0]['kelompok'];  
+
+    
+}else{
+
+    $res1 = $users->get_pemimpin($kontak_pengirim);
+    $kontak_pemimpin =$res1[0]['kontak'];
+    $nama_pemimpin =$res1[0]['nama'];
+    $kelompok =$res1[0]['kelompok'];  
+}
+
+
+
 
                                 $chatId_pemimpin=$kontak_pemimpin.'@c.us';    
                                 // // $nomer_tujuan_pemesan=$no_kontak_pemesan.'@c.us'; 
@@ -195,6 +318,7 @@
 
 
                                 // //pesan ke pemimpin
+                                //?? jika level dgm / gm
                                 $this->sendMessage($chatId_pemimpin,
                             
                                 "-------------------------------------------------\n".
@@ -227,36 +351,194 @@
                                 
                                     "------STOK KODE GRAB------------------------\n".
                                     "STOK   :".$stok."  \n".
-                                    "--------------------------------------------"
+                                    "----------------------------------------------"
                                     );
                                     }
 
 
-                        public function insert_users($chatId,$input1,$input2,$input3,$input4,$input5){
-                        
+//dev 28072019
+public function grab_info($chatId){
+    
+require_once 'order_grab.php';
+$order_grab = new order_grab();
+$kontak='6287711086938';
+$result = $order_grab->get_order_grab($kontak);
+$nama=$result['nama'];
+$kontak=$result['kontak'];
+$kelompok=$result['kelompok'];
+$jumlah=$result['jumlah'];
 
-            require_once 'users.php';
-            $users = new users();
-            // $nama='XYZ';
-            // $kontak='621122334455';
-            // $kelompok='TES';
-            // $level='2';
-            $res5 = $users->insert($input2,$input3,strtoupper($input4),$input5);
+
+    $this->sendMessage($chatId,
+
+    "------INFO ORDER------------------------\n".
+    "NAMA       :".$nama."  \n".
+    "KONTAK     :".$kontak."  \n".
+    "KELOMPOK   :".$kelompok."  \n".
+    "JUMLAH     :".$jumlah."  \n".
+    "----------------------------------------------"
+    );
+    }
+
+
+
+//dev 25072019
+// public function users_kelompok($chatId,$input1,$input2){
+                                    
+//     require_once 'users.php';
+//     $users = new users();
+//     // // $nama='XYZ';
+//     // $kelompok='DEV';
+//     $result = $users->get_all_kelompok($input2);
+//     $this->sendMessage($chatId,
+//         foreach($result as $data) {
+
+//     "------STOK KODE GRAB------------------------\n".
+//     "NAMA   :".$data['nama']."  \n".
+//     "----------------------------------------------"
+// }
+//     );
+//     }                                    
+
+                        public function insert_users($chatId,$input1,$input2,$input3,$input4){
+                        
+                            if($input4==1){
+                                $level=1;
+                            }else{
+                                $level=2;
+                            }
+
+                        require_once 'users.php';
+                        $users = new users();
+                        $no_kontak=str_replace('@c.us','',$chatId);
+
+                        // dev26072019                        
+                        // $res5 = $users->insert(strtoupper($input2),$no_kontak,strtoupper($input3));
+                        $res5 = $users->get_users($no_kontak);
+                        $ada_kontak = count($res5['kontak']);
+
+                        $res6 = $users->get_kelompok(strtoupper($input3));
+                        $ada_kelompok = count($res6['kelompok']);
+                        
+                        if($ada_kontak>0){
+                            
+                            $proses = "KONTAK SUDAH TERDAFTAR \n";
+                            // $proses = ($ada_kontak==0) ? "KONTAK BELUM TERDAFTAR \n" : "KONTAK SUDAH TERDAFTAR \n";
+                            
+                        }elseif($ada_kelompok==0 && $level==2){
+                            $proses =  "NAMA KELOMPOK SALAH \n";
+                            // $proses = ($ada_kelompok==0) ? "KELOMPOK BELUM TERDAFTAR \n" : "KELOMPOK SUDAH TERDAFTAR \n";
+
+                        }else{
+
+                            //insert(NAMA,NO_KONTAK,NAMA_KELOMPOK,LEVEL);
+                            $res7 = $users->insert(strtoupper($input2),$no_kontak,strtoupper($input3),$level);
+                            $proses = ($res7=false) ? "GAGAL \n" : "SUCCESS \n";
+                            
+                        }                        
+
 
 
                             $this->sendMessage($chatId,
                         
-                            "------HELP------------------------------------------\n".
-                            // "------".$input1."  \n".
-                            "------".$input2."  \n".
-                            "------".$input3."  \n".
-                            "------".$input4."  \n".
-                            "------".$input5."  \n".
-                            // "------".$input1."  \n".
-                            "------- \n".
-                            "-----------------------------------------------------"
+                            // "------------------------------------------------\n".
+                            "==>>>>".$proses."  \n"
+                            // "------".$input2."  \n".
+                            // "------".$input3."  \n".
+                            // "------".$input4."  \n".
+                            // "------".$input5."  \n".
+                            // "------- \n".
+                            // "-----------------------------------------------------"
                             );
+//dev
+$res1 = $users->get_pemimpin($no_kontak);
+$kontak_pemimpin =$res1[0]['kontak'];
+// $nama_pemimpin =$res1[0]['nama'];
+$kelompok =$res1[0]['kelompok']; 
+$chatId_pemimpin=$kontak_pemimpin.'@c.us';   
+
+
+$this->sendMessage($chatId_pemimpin,
+                            
+"-----------NEW REGISTER--------------------------------------\n".
+"No Kontak      :".$no_kontak."  \n".
+"Nama           :".$input2."  \n".
+"Kelompok       :".$input3."  \n".
+// "No Pemimpin    :".$kontak_pemimpin."  \n".
+// "Nama Pemimpin  :".$nama_pemimpin."  \n".
+// "-------------------------------------------------- \n".
+// "Kode Grab      :".$kode_grab."  \n".
+// "Expired        :".$expired."  \n".
+// "QTY      :".$input3."  \n".
+// "".$id_kode_grab."  \n".
+"----------------------------------------------------"
+);
+//==========
+
                             }
+
+
+
+
+
+//dev 28072019
+//jika pemimpin       --> UPDATE  NAMA KONTAK KELOMPOK LEVEL WHERE_KOTAK
+//jika bukan pemimpin --> UPDATE  NAMA KONTAK KELOMPOK 
+public function update_users($chatId,$input1,$nama_update,$kontak_update,$kelompok_update,$level,$where_kontak){
+
+
+    $kontak_pengirim =str_replace('@c.us','',$chatId);
+
+    require_once 'users.php';
+    $users = new users();
+    $res2 = $users->get_users($kontak_pengirim);
+    // $nama_pengirim =$res2['nama'];
+    $level_user =$res2['level'];    
+//cek level kontak
+// jika level 1  level=1 else level=2
+// $level_user=2;   
+if($level_user==1){
+    $level_update=$level;
+    $where_kontak_update=$where_kontak;
+}else{
+    $level_update=2;
+    $where_kontak_update=str_replace('@c.us','',$chatId);
+}
+
+
+$result = $users->update($nama_update,$kontak_update,$kelompok_update,$level_update,$where_kontak_update);
+
+if($result){
+    $this->sendMessage($chatId,
+
+    "--------------------------------------------------------\n".                                       
+    "--------------------------------------------------------\n".                                       
+    "    ".$chatId." \n".
+    "UPDATE    ".$input1." \n".
+    // "SET ".$input3." \n".
+    "NAMA    ".$nama_update." \n".
+    "KONTAK    ".$kontak_update." \n".
+    "KELOMPOK    ".$kelompok_update." \n".
+    "LEVEL   ".$level_update." \n".
+    "NO_KONTAK_UPDATE    ".$where_kontak_update." \n".
+    "--------------------------------------------------------"
+    );
+    
+}else{
+
+
+    $this->sendMessage($chatId,
+
+    "--------------------------------------------------------\n".                                       
+    "GAGAL UPDATE     \n".
+    "--------------------------------------------------------"
+    );
+
+
+}
+    
+    }
+
 
 
 // =====================================================================================
@@ -326,8 +608,37 @@
 //====================================================================================
 
                         public function sendMessage($chatId, $text){
-                        $data = array('chatId'=>$chatId,'body'=>$text);
-                        $this->sendRequest('message',$data);}
+
+                            
+                            // require_once 'users.php';
+                            // $users = new users();
+                            // $no_kontak=str_replace('@c.us','',$chatId);
+    
+                            // // dev26072019
+                            // $res5 = $users->get_users($no_kontak);
+                            // $ada_kontak = count($res5['kontak']);
+    
+
+                            
+                            // if($ada_kontak>0){                                
+                                $data = array('chatId'=>$chatId,'body'=>$text);
+                                $this->sendRequest('message',$data);
+//                             }else{
+                                
+//                                 $text2=
+// "Saya Bimo bisa Dibantu .. ? \n".
+// "-------------------------------------------------------\n".
+// "No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu   \n".
+// "ketik REG<spasi>NAMA<spasi>KELOMPOK \n".    
+// // "--------------------------------------------------------\n".                                       
+// // "butuh bantuan? --> ketik help \n".                                                
+// "--------------------------------------------------------";
+//                                 $data = array('chatId'=>$chatId,'body'=>$text2);
+//                                 $this->sendRequest('message',$data);
+                                        
+//                             }
+                    
+                        }
 
                         public function sendRequest($method,$data){
                         $url = $this->APIurl.$method.'?token='.$this->token;

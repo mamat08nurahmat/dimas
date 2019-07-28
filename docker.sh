@@ -72,6 +72,14 @@ case $CMD in
         eval $CMD
         ;;
 
+    code)
+        CMD="docker rm -f code2222"
+        CMD="docker run -d -p 2222:8443 -v "${PWD}:/home/coder/project" --name code2222 codercom/code-server --allow-http --no-auth"
+        echo "$CMD"
+        eval $CMD
+	;;
+
+
     *)
         echo "Usage : build | start <image_tag> | stop | remove | rmi"
         ;;
