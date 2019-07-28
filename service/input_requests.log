@@ -26964,3 +26964,73 @@
           'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'viewed'</font> <i>(length=6)</i>
   'instanceId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'53244'</font> <i>(length=5)</i>
 </pre>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/var/www/html/service/chatbotwa.php:51:</small>
+<b>array</b> <i>(size=2)</i>
+  'messages' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=1)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=13)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'false_6287711086938@c.us_3EB033A5A96E9A3DBFB9'</font> <i>(length=45)</i>
+          'body' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'hi'</font> <i>(length=2)</i>
+          'fromMe' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+          'self' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>0</font>
+          'isForwarded' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>0</font>
+          'author' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6287711086938@c.us'</font> <i>(length=18)</i>
+          'time' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>1564327233</font>
+          'chatId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6287711086938@c.us'</font> <i>(length=18)</i>
+          'messageNumber' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>1161</font>
+          'type' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'chat'</font> <i>(length=4)</i>
+          'senderName' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'mamat08nurahmat'</font> <i>(length=15)</i>
+          'caption' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+          'chatName' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'+62 877-1108-6938'</font> <i>(length=17)</i>
+  'instanceId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'53244'</font> <i>(length=5)</i>
+</pre>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/var/www/html/service/chatbotwa.php:51:</small>
+<b>array</b> <i>(size=2)</i>
+  'ack' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=1)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=4)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'true_6287711086938@c.us_3EB0A953326542223C1E'</font> <i>(length=44)</i>
+          'queueNumber' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>416</font>
+          'chatId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6287711086938@c.us'</font> <i>(length=18)</i>
+          'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'sent'</font> <i>(length=4)</i>
+  'instanceId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'53244'</font> <i>(length=5)</i>
+</pre>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/var/www/html/service/chatbotwa.php:51:</small>
+<b>array</b> <i>(size=2)</i>
+  'messages' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=1)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=13)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'true_6287711086938@c.us_3EB0A953326542223C1E'</font> <i>(length=44)</i>
+          'body' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Hi.. MUGIWARA   &#10;Selamat Malam &#10;Saya Bimo bisa Dibantu .. ? &#10;-------------------------------------------------------&#10;Untuk melakukan pemesan &#10;ketik GRAB&lt;spasi&gt;ORDER &#10;--------------------------------------------------------&#10;butuh bantuan? --&gt; ketik help &#10;--------------------------------------------------------'</font> <i>(length=310)</i>
+          'fromMe' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>true</font>
+          'self' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>1</font>
+          'isForwarded' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>0</font>
+          'author' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6281932477899@c.us'</font> <i>(length=18)</i>
+          'time' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>1564327239</font>
+          'chatId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6287711086938@c.us'</font> <i>(length=18)</i>
+          'messageNumber' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>1162</font>
+          'type' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'chat'</font> <i>(length=4)</i>
+          'senderName' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Bot Wa'</font> <i>(length=6)</i>
+          'caption' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+          'chatName' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'+62 877-1108-6938'</font> <i>(length=17)</i>
+  'instanceId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'53244'</font> <i>(length=5)</i>
+</pre>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/var/www/html/service/chatbotwa.php:51:</small>
+<b>array</b> <i>(size=2)</i>
+  'ack' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=1)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=4)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'true_6287711086938@c.us_3EB0A953326542223C1E'</font> <i>(length=44)</i>
+          'queueNumber' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>416</font>
+          'chatId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6287711086938@c.us'</font> <i>(length=18)</i>
+          'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'delivered'</font> <i>(length=9)</i>
+  'instanceId' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'53244'</font> <i>(length=5)</i>
+</pre>
