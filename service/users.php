@@ -5,8 +5,62 @@
         class users {
 
 // dev 26072019
+function get_detail_pemimpin_kelompok($nama_kelompok) {
+    // memanggil file database.php
+    require_once "config/database.php";
+
+    // membuat objek db dengan nama $db
+    $db = new database();
+
+    // membuka koneksi ke database
+    $mysqli = $db->connect();
+
+    // sql statement untuk mengambil semua data kontak
+    $sql = "
+    SELECT * FROM `form_users` WHERE `kelompok` ='$nama_kelompok' AND level=1
+    ";
+
+
+    $result = $mysqli->query($sql);
+
+    while ($data = $result->fetch_assoc()) {
+        $hasil[] = $data;
+    }
+
+    // menutup koneksi database
+    $mysqli->close();
+
+    // nilai kembalian dalam bentuk array
+    return $hasil;
+}
+
+
+function update_kelompok($kontak_lama,$kelompok_baru) {
+    // memanggil file database.php
+    require_once "config/database.php";
+
+    // membuat objek db dengan nama $db
+    $db = new database();
+
+    // membuka koneksi ke database
+    $mysqli = $db->connect();
+
+    // sql statement untuk update data users
+    $sql = "UPDATE `chatbotwa`.`form_users` SET `kelompok`='$kelompok_baru' WHERE `kontak`='$kontak_lama'"; 
+ 
+    $result = $mysqli->query($sql);
+
+
+    // menutup koneksi database
+    $mysqli->close();
+
+    return $result;
+}
+
+
+
             /* Method untuk mengubah data pada tabel users */
-            function update_pemimpin($kontak) {
+            function update_pemimpin($kontak_pemimpin_lama,$kontak_pemimpin_baru) {
                 // memanggil file database.php
                 require_once "config/database.php";
         
@@ -17,9 +71,12 @@
                 $mysqli = $db->connect();
         
                 // sql statement untuk update data users
-                $sql = "UPDATE `chatbotwa`.`form_users` SET `level`='1' WHERE `kontak`='$kontak'"; 
-        
+                $sql = "UPDATE `chatbotwa`.`form_users` SET `level`='1' WHERE `kontak`='$kontak_pemimpin_baru'"; 
+                $sql2 = "UPDATE `chatbotwa`.`form_users` SET `level`='2' WHERE `kontak`='$kontak_pemimpin_lama'"; 
+                // UPDATE `chatbotwa`.`form_users` SET `level` = '1' WHERE (`id` = '1');
+
                 $result = $mysqli->query($sql);
+                $result2 = $mysqli->query($sql2);
         
         
                 // menutup koneksi database

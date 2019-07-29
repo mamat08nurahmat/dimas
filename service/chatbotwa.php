@@ -1,5 +1,22 @@
 <?php
 
+
+// require_once 'users.php';
+// $users = new users();
+// // $kontak_pemimpin_baru='6287711086938';
+// // $kontak_pemimpin_lama='62818760046';
+// $nama_kelompok_lama='SPO';
+// $result = $users->get_detail_pemimpin_kelompok($nama_kelompok_lama);
+// $no_kontak_pemimpin_lama=$result[0]['kontak'];
+
+// $nama_kelompok_baru='SMN';
+// $result2 = $users->get_detail_pemimpin_kelompok($nama_kelompok_baru);
+// $no_kontak_pemimpin_baru=$result2[0]['kontak'];
+
+// print_r($no_kontak_pemimpin_lama);
+// print_r($no_kontak_pemimpin_baru);
+// die();
+
 // require_once 'order_grab.php';
 // $order_grab = new order_grab();
 // $kontak='6287711086938';
@@ -80,6 +97,9 @@
 
                         case 'help':     {$this->help($message['chatId']); break;}
 
+                        case 'update#pemimpin':     {$this->update_pemimpin($message['chatId'],$input1,$input2); break;}
+                        case 'update#kelompok':     {$this->update_kelompok($message['chatId'],$input1,$input2); break;}
+
                         case 'grab':     {$this->grab($message['chatId'],$input1,$input2); break;}
 
                         // case 'insert#users':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4,$input5); break;}
@@ -133,10 +153,10 @@
                         $this->sendMessage($chatId,
                         $welcomeString.
                         "".$pesan." \n".
-                        "Saya Bimo bisa Dibantu .. ? \n".
+                        "Dengan Saya DiMas bisa Dibantu Mas.. ? \n".
                         "-------------------------------------------------------\n".
-                        "Untuk melakukan pemesan \n".
-                        "ketik GRAB<spasi>ORDER \n".    
+                        "Untuk melakukan pemesan Voucher Grab \n".
+                        "ketik GRAB <spasi> ORDER \n".    
                         "--------------------------------------------------------\n".                                       
                         "butuh bantuan? --> ketik help \n".                                                
                         "--------------------------------------------------------"
@@ -188,7 +208,7 @@ if($ada_kontak>0){
 "Upps.. \n".
 "-------------------------------------------------------\n".
 "No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu untuk melakukan order  \n".
-"ketik REG<spasi>NAMA<spasi>KELOMPOK \n".    
+"ketik REG <spasi> NAMA <spasi> KELOMPOK \n".    
 // "--------------------------------------------------------\n".                                       
 // "butuh bantuan? --> ketik help \n".                                                
 "--------------------------------------------------------";
@@ -223,22 +243,28 @@ if($ada_kontak>0){
                         
                             "--------------------------------------------------------\n".                                       
                             "#untuk order voucher grab  \n".
-                            "KETIK GRAB<spasi>ORDER   \n".
+                            "ketik GRAB<spasi>ORDER   \n".
                             "--------------------------------------------------------\n".                                       
                             "#untuk info order voucher grab  \n".
-                            "KETIK GRAB<spasi>INFO   \n".
+                            "ketik GRAB <spasi> INFO   \n".
                             "--------------------------------------------------------\n".                                       
                             // "GRAB STOK --> untuk melihat stok voucher grab  \n".
                             // "REG TEST MERCHANT 1  --> untuk menambah kelompok baru dengan level pemimpin  \n".
                             "#untuk registrasi user  \n".
-                            "KETIK REG<spasi>NAMA_PANGGIL<spasi>KELOMPOK \n".                                               
+                            "ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
                             "--> contoh  \n".                                               
                             "REG TOPENG SPO  \n".                                               
                             "--------------------------------------------------------\n".                                       
-                            "#untuk update user  \n".
-                            "KETIK UPDATE<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU \n".                                               
+                            "#untuk update kelompok  \n".
+                            // "KETIK UPDATE<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU \n".                                               
+                            "ketik UPDATE#KELOMPOK <spasi> KELOMPOK_BARU \n".                                               
                             "--> contoh  \n".                                               
-                            "UPDATE FRENDY 62123456789 SPO  \n".                                               
+                            "UPDATE#KELOMPOK DSS  \n".                                               
+                            "--------------------------------------------------------\n".                                       
+                            "#untuk update pemimpin  \n".
+                            "ketik UPDATE#PEMIMPIN <spasi> NO_PEMIMPIN_BARU \n".                                               
+                            "--> contoh  \n".                                               
+                            "UPDATE#PEMIMPIN 628123456789  \n".                                               
                             "--------------------------------------------------------\n".                                       
                             "KIRIM KE 6281932477899 \n".
                             "--------------------------------------------------------"
@@ -269,6 +295,7 @@ if($ada_kontak>0){
                                 $res2 = $users->get_users($kontak_pengirim);
                                 $nama_pengirim =$res2['nama'];
                                 $level_pengirim =$res2['level'];
+                                $kelompok_pengirim =$res2['kelompok'];
 //dev 28072019
 if($level_pengirim==1){
 // jika level pemimpin akan dikirim ke pemimpin sup
@@ -303,11 +330,11 @@ if($level_pengirim==1){
                                 $this->sendMessage($chatId_pengirim,
                             
                                 "-------------------------------------------------\n".
-                                // "No Pengirim    :".$kontak_pengirim."  \n".
+                                "Request By    :".$kontak_pengirim."  \n".
                                 // "Nama           :".$nama_pengirim."  \n".
-                                "Kelompok       :".$kelompok."  \n".
-                                "No Pemimpin    :".$kontak_pemimpin."  \n".
-                                "Nama Pemimpin  :".$nama_pemimpin."  \n".
+                                "Kelompok       :".$kelompok_pengirim."  \n".
+                                // "No             :".$kontak_pemimpin."  \n".
+                                // "Nama Pemimpin  :".$nama_pemimpin."  \n".
                                 "-------------------------------------------------- \n".
                                 "Kode Grab      :".$kode_grab."  \n".
                                 "Expired        :".$expired."  \n".
@@ -324,7 +351,7 @@ if($level_pengirim==1){
                                 "-------------------------------------------------\n".
                                 "Request By    :".$kontak_pengirim."  \n".
                                 "Nama           :".$nama_pengirim."  \n".
-                                "Kelompok       :".$kelompok."  \n".
+                                "Kelompok       :".$kelompok_pengirim."  \n".
                                 // "No Pemimpin    :".$kontak_pemimpin."  \n".
                                 // "Nama Pemimpin  :".$nama_pemimpin."  \n".
                                 "-------------------------------------------------- \n".
@@ -541,6 +568,65 @@ if($result){
     }
 
 
+
+    public function update_pemimpin($chatId_pemimpin_lama,$input1,$input2){
+            
+        $no_kontak_pemimpin_lama=str_replace('@c.us','',$chatId_pemimpin_lama);
+        $no_kontak_pemimpin_baru=$input2;
+        $chatId_pemimpin_baru=$no_kontak_pemimpin_baru.'@c.us'; 
+        require_once 'users.php';
+        $users = new users();
+        $users->update_pemimpin($no_kontak_pemimpin_lama,$no_kontak_pemimpin_baru);
+        //kirim ke pemimpin lama
+        $this->sendMessage($chatId_pemimpin_lama,
+        "--------------------------------------------------------\n".                                      
+        "DATA PEMIMPIN KELOMPOK TERUPDATE  \n".
+        "Request By    :".$no_kontak_pemimpin_lama."  \n". 
+        "--------------------------------------------------------"
+        );
+
+        //kirim ke pemimpin lama
+        $this->sendMessage($chatId_pemimpin_baru,
+        "--------------------------------------------------------\n".                                       
+        "DATA PEMIMPIN KELOMPOK TERUPDATE  \n".
+        "Request By    :".$no_kontak_pemimpin_lama."  \n". 
+        "--------------------------------------------------------"
+        );
+        
+
+        }    
+
+
+        public function update_kelompok($chatId,$input1,$input2){
+            
+            $no_kontak_pemimpin_lama=str_replace('@c.us','',$chatId);
+            $kelompok_baru=$input2;
+            require_once 'users.php';
+            $users = new users();
+            $users->update_kelompok($no_kontak_pemimpin_lama,strtoupper($kelompok_baru));
+            //kirim ke pemimpin lama
+            $this->sendMessage($chatId,
+            "--------------------------------------------------------\n".                                      
+            "DATA  KELOMPOK BARU TERUPDATE  \n".
+            "Request By    :".$no_kontak_pemimpin_lama."  \n". 
+            "--------------------------------------------------------"
+        );
+        
+        $result2 = $users->get_detail_pemimpin_kelompok($kelompok_baru);
+        $no_kontak_pemimpin_baru=$result2[0]['kontak'];
+        $chatId_pemimpin_baru=$no_kontak_pemimpin_baru.'@c.us'; 
+        
+
+            //kirim ke pemimpin lama
+            $this->sendMessage($chatId_pemimpin_baru,
+            "--------------------------------------------------------\n".                                       
+            "DATA  KELOMPOK BARU TERUPDATE  \n".
+            "Request By    :".$no_kontak_pemimpin_lama."  \n". 
+            "--------------------------------------------------------"
+            );
+            
+    
+            }   
 
 // =====================================================================================
                         // dev
