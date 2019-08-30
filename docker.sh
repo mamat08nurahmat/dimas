@@ -2,20 +2,23 @@
 
 CMD=$1
 
-IMAGE_TAG=latest
-
-IMAGE_NAME="mamat08nurahmat/chatbotwa"
-
-CONTAINER_NAME="chatbotwa"
-CONTAINER_NAME_DEV="chatbotwa_dev"
+IMAGE_TAG=$2
+DOCKER_USER="mamat08nurahmat"
+IMAGE_NAME="mamat08nurahmat/dimas"
+CONTAINER_NAME="dimas"
+CONTAINER_NAME_DEV="dimasa_dev"
 
 
 case $CMD in
     build)
-        docker build -t  $IMAGE_NAME .
+        docker build -t $IMAGE_NAME:$IMAGE_TAG .
         ;;
 
-    start)
+    build_dev)
+        docker build -f Dockerfile_Dev -t $IMAGE_NAME:$IMAGE_TAG .
+        ;;
+
+    run)
         CMD="docker run"
         CMD="$CMD -d"
         CMD="$CMD --name $CONTAINER_NAME"
@@ -25,7 +28,7 @@ case $CMD in
         eval $CMD
         ;;
 
-    start_dev)
+    run_dev)
         CMD="docker run"
         CMD="$CMD -d"
         CMD="$CMD -v "${PWD}:/var/www/html""
@@ -60,8 +63,20 @@ case $CMD in
         eval $CMD
         ;;
 
+
+    login)
+        CMD="docker login"
+        CMD="$CMD -u"
+        CMD="$CMD  $DOCKER_USER"
+        CMD="$CMD -p"
+        CMD="$CMD $2"
+        echo "$CMD"
+        eval $CMD
+        ;;
+
+
     rmi)
-        docker rmi -f $IMAGE_NAME
+        docker rmi -f $IMAGE_NAME:$IMAGE_TAG
         ;;
 
 
@@ -73,15 +88,29 @@ case $CMD in
         ;;
 
     code)
-        CMD="docker rm -f code2222"
-        CMD="docker run -d -p 2222:8443 -v "${PWD}:/home/coder/project" --name code2222 codercom/code-server --allow-http --no-auth"
+        CMD="docker rm -f code1234"
+        CMD="docker run -d -p 1234:8443 -v "${PWD}:/home/coder/project" --name code1234 codercom/code-server --allow-http --no-auth"
+        echo "$CMD"
+        eval $CMD
+	;;
+
+    rm_f)
+        CMD="docker rm -f $(docker ps -aq)"
+        # CMD="$(docker ps -aq)"
+        echo "$CMD"
+        eval $CMD
+	;;
+
+    rmi_f)
+        CMD="docker rmi -f $(docker images -aq)"
         echo "$CMD"
         eval $CMD
 	;;
 
 
+
     *)
-        echo "Usage : build | start <image_tag> | stop | remove | rmi"
+        echo "Usage : build | run <image_tag> | stop | remove | rmi"
         ;;
 esac
 
