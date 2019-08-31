@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbotwa-webhook
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: chatbotwa-webhook
+  template:
+    metadata:
+      labels:
+        app: chatbotwa-webhook
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: chatbotwa-webhook
+        image: mamat08nurahmat/chatbotwa-webhook:3
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatbotwa-webhook
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: chatbotwa-webhook
