@@ -1,0 +1,15 @@
+TYPE=VIEW
+query=select `vw_report_belum_terpakai`.`no_pemesan` AS `no_pemesan`,`vw_report_belum_terpakai`.`nama` AS `nama`,`vw_report_belum_terpakai`.`kelompok` AS `kelompok`,count(`vw_report_belum_terpakai`.`no_pemesan`) AS `jumlah`,`vw_report_belum_terpakai`.`update_at` AS `update_at` from `chatbotwa`.`vw_report_belum_terpakai` group by `vw_report_belum_terpakai`.`no_pemesan`,`vw_report_belum_terpakai`.`nama`,`vw_report_belum_terpakai`.`kelompok` order by `jumlah` desc
+md5=585064cb501652a5517213fcc903be95
+updatable=0
+algorithm=0
+definer_user=root
+definer_host=%
+suid=1
+with_check_option=0
+timestamp=2019-09-01 00:26:45
+create-version=1
+source=select `vw_report_belum_terpakai`.`no_pemesan` AS `no_pemesan`,`vw_report_belum_terpakai`.`nama` AS `nama`,`vw_report_belum_terpakai`.`kelompok` AS `kelompok`,count(`vw_report_belum_terpakai`.`no_pemesan`) AS `jumlah`,`vw_report_belum_terpakai`.`update_at` AS `update_at` from `vw_report_belum_terpakai` group by `vw_report_belum_terpakai`.`no_pemesan`,`vw_report_belum_terpakai`.`nama`,`vw_report_belum_terpakai`.`kelompok` order by `jumlah` desc
+client_cs_name=utf8
+connection_cl_name=utf8_general_ci
+view_body_utf8=select `vw_report_belum_terpakai`.`no_pemesan` AS `no_pemesan`,`vw_report_belum_terpakai`.`nama` AS `nama`,`vw_report_belum_terpakai`.`kelompok` AS `kelompok`,count(`vw_report_belum_terpakai`.`no_pemesan`) AS `jumlah`,`vw_report_belum_terpakai`.`update_at` AS `update_at` from `chatbotwa`.`vw_report_belum_terpakai` group by `vw_report_belum_terpakai`.`no_pemesan`,`vw_report_belum_terpakai`.`nama`,`vw_report_belum_terpakai`.`kelompok` order by `jumlah` desc
