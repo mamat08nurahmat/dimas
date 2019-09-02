@@ -16,8 +16,8 @@
                 $mysqli = $db->connect();
         
                 // sql statement untuk mengambil semua data grab
-                $sql = "SELECT count(*) as stok FROM form_kode_grab  WHERE is_used='0'ORDER BY id DESC";
-        
+                $sql = "SELECT count(*) as stok FROM form_kode_grab  WHERE is_used='0' and MONTH(active) >= MONTH(curdate())";
+                // SELECT count(*) as stok FROM form_kode_grab  WHERE is_used='0' and MONTH(active) >= MONTH(curdate())
                 $result = $mysqli->query($sql);
         
                 while ($data = $result->fetch_assoc()) {
