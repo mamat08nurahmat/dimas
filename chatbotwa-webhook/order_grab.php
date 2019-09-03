@@ -3,6 +3,49 @@
         
         /* class order_grab */
         class order_grab {
+
+//dev 03092019
+function grab_info_tim($kelompok) {
+    // memanggil file database.php
+    require_once "config/database.php";
+
+    // membuat objek db dengan nama $db
+    $db = new database();
+
+    // membuka koneksi ke database
+    $mysqli = $db->connect();
+
+    // sql statement untuk mengambil semua data order_grab
+    $sql = "
+    select 
+    nama,
+    no_pemesan,
+    kelompok,
+    count(nama) jumlah, 
+    sum(CAST(replace(fare,'.00','') AS decimal(18))) as total_fare,
+    MONTHNAME(order_voucher_at) as bulan
+    from chatbotwa.vw_report_sudah_terpakai
+    where kelompok='$kelompok'
+    group by nama,no_pemesan,kelompok,bulan
+    order by total_fare desc
+    
+
+    ";
+
+    $result = $mysqli->query($sql);
+
+    while ($data = $result->fetch_assoc()) {
+        $hasil[] = $data;
+    }
+
+    // menutup koneksi database
+    $mysqli->close();
+
+    // nilai kembalian dalam bentuk array
+    return $hasil;
+}
+
+
 // dev 21082019
 function report_ymd($no_pemesan,$kelompok,$level) {
     // memanggil file database.php

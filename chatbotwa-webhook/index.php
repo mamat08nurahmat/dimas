@@ -47,7 +47,7 @@
     case 'help':     {$this->help($message['chatId']); break;}
     case 'move':     {$this->update_pemimpin($message['chatId'],$input1,$input2,$input3); break;}
     case 'update':     {$this->update_kelompok($message['chatId'],$input1,$input2,$input3); break;}
-    case 'grab':     {$this->grab($message['chatId'],$input1,$input2); break;}
+    case 'grab':     {$this->grab($message['chatId'],$input1,$input2,$input3); break;}
     // case 'insert#users':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4,$input5); break;}
     case 'reg':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4); break;}
     
@@ -82,13 +82,13 @@
         $Hour = date('H');
         
         if ( $Hour >= 5 && $Hour <= 10 ) {
-            $pesan= "Semangat Pagi..!!!";
+            $pesan= "Semangat Pagi..🌅🌅🌅 ";
         } else if ( $Hour >= 11 && $Hour <= 15 ) {
-            $pesan= "Selamat Siang";
+            $pesan= "Selamat Siang..☀️☀️☀️";
         } else if ( $Hour >= 16 && $Hour <= 18 ) {
-            $pesan= "Selamat Sore";
+            $pesan= "Selamat Sore..🌇🌇🌇";
         } else {
-            $pesan= "Selamat Malam";
+            $pesan= "Selamat Malam..🌜🌜🌜";
         }
 
     require_once 'users.php';
@@ -114,17 +114,17 @@
     // $welcomeString = ($noWelcome) ? "Upps..Typo bro..\n" : "Hi.. ".$nama."   \n";
     $this->sendMessage($chatId,
     // $welcomeString.
-    "HHaiii...".$nama." \n".
+    "Hii.....😁 ".$nama." \n".
     "".$pesan." \n".
     " \n".
     "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
-    "Dengan No ".$kontak." \n".
+    "Dengan No 📱 ".$kontak." \n".
     "-------------------------------------------------------\n".
-    "Untuk melakukan pemesan Voucher Grab \n".
+    "Untuk melakukan pemesan Voucher Grab 🏎️🏎️🏎️\n".
     "ketik GRAB <spasi> ORDER \n".    
     "--------------------------------------------------------\n".                                       
     "Butuh bantuan? --> ketik help \n".                                                
-    "Ditanya aja Mas.. \n".                                                
+    "Ditanya aja Mas..🙏🙏🙏 \n".                                                
     "--------------------------------------------------------"
                                           
     );
@@ -141,7 +141,7 @@
         "ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
         "--------------------------------------------------------\n".                                       
         "Butuh bantuan? --> ketik help \n".                                                
-        "Ditanya aja Mas... \n".                                                
+        "Ditanya aja Mas...🙏🙏🙏  \n".                                                
         "--------------------------------------------------------"                                      
         );
         
@@ -213,7 +213,7 @@ $this->sendMessage($chatId,
 
 
 //dev 25072019
-    public function grab($chatId,$input1,$input2){
+    public function grab($chatId,$input1,$input2,$input3){
 
     // dev 28072019
     require_once 'users.php';
@@ -237,7 +237,11 @@ $this->sendMessage($chatId,
             break;}
 
             case 'info':    {
-                $this->grab_info($chatId);             
+                if($input3=='tim'){
+                    $this->grab_info_tim($chatId);             
+                }else{
+                    $this->grab_info($chatId);             
+                }
             break;}
             
             case 'stok':    {
@@ -280,7 +284,7 @@ public function help($chatId){
     
     // "KETIK UP<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU<spasi>[1/2]<spasi>62111111111 \n".                                               
     // "KETIK GRAB<spasi>STOK \n".                                               
-    "--------------------------------------------------------\n".                                       
+    "😎😎😎😎😎😎😎😎😎😎😎\n".                                       
     "#untuk order voucher grab  \n".
     "ketik GRAB<spasi>ORDER   \n".
     "--------------------------------------------------------\n".                                       
@@ -388,8 +392,9 @@ $detail_kode_grab = $order_grab->detail_belum_terpakai($kontak_pengirim);
 $this->sendMessage($chatId_pengirim,
 
 "-------------------------------------------------\n".
-"Request By    :".$nama_pengirim."  \n".
+"Request By     :".$nama_pengirim."  \n".
 "Kelompok       :".$kelompok_pengirim."  \n".
+"🏎️🏎️🏎️🏎️🏎️🏎️🏎️\n".
 "----------------------------------------------------"
 );
 
@@ -422,30 +427,18 @@ $this->sendMessage($chatId_pengirim,
 "Request By    :".$nama_pengirim."  \n".
 // "Nama           :".$nama_pengirim."  \n".
 "Kelompok       :".$kelompok_pengirim."  \n".
-// "No             :".$kontak_pemimpin."  \n".
-// "Nama Pemimpin  :".$nama_pemimpin."  \n".
-//"-------------------------------------------------- \n".
-//"Kode Grab      :".$kode_grab."  \n".
-//"Expired        :".$expired."  \n".
-// "QTY      :".$input3."  \n".
-// "".$id_kode_grab."  \n".
+"🏎️🏎️🏎️🏎️🏎️🏎️🏎️\n".
 "----------------------------------------------------"
 );
 
-
-
-
-
-
-
-//dev 19082019
+//kirim kode yang udah diorder
     foreach($detail_kode_grab as $data){
         $this->sendMessage($chatId_pengirim,   
         $data['kode_grab']
     );            
 
     }
-
+//kirim kode yang taerbaru
     $this->sendMessage($chatId_pengirim,
     $kode_grab);    
 
@@ -457,6 +450,7 @@ $this->sendMessage($chatId_pemimpin,
 "Request By    :".$kontak_pengirim."  \n".
 "Nama           :".$nama_pengirim."  \n".
 "Kelompok       :".$kelompok_pengirim."  \n".
+"🏎️🏎️🏎️🏎️🏎️🏎️🏎️\n".
 // "No Pemimpin    :".$kontak_pemimpin."  \n".
 // "Nama Pemimpin  :".$nama_pemimpin."  \n".
 "-------------------------------------------------- \n".
@@ -483,7 +477,7 @@ $this->sendMessage($chatId_pemimpin,
         $this->sendMessage($chatId,
     
         "------STOK KODE GRAB------------------------\n".
-        "STOK   :".$stok."  \n".
+        "🏷️ STOK   :".$stok."  \n".
         "----------------------------------------------"
         );
         }
@@ -501,6 +495,84 @@ $res = $kirim_file->report($no_kontak);
     
 
     }
+
+//dev 03092019
+public function grab_info_tim($chatId){
+        
+    require_once 'order_grab.php';
+    $order_grab = new order_grab();
+    require_once 'users.php';
+    $users = new users();
+    $kontak_pemimpin=str_replace('@c.us','',$chatId);
+    // $no_kontak='62816204646';
+    // $no_kontak='6287711086938';
+    // $result = $order_grab->get_order_grab($no_kontak);
+    // $jumlah=$result['jumlah'];
+    
+    $res = $users->get_detail($kontak_pemimpin);
+    
+    
+    $nama=$res[0]['nama'];
+    $kelompok=$res[0]['kelompok'];
+    $level=$res[0]['level'];
+    
+    $grab_info_tim = $order_grab->grab_info_tim($kelompok);
+
+    if($level==1){
+//==========
+foreach($grab_info_tim as $data):
+    $text = 
+    // "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
+    "--------------------------------------------------------\n".
+    "Grab Info TIM ".$kelompok." \n".
+    "--------------------------------------------------------\n".
+    // $looping1.
+    "😎 Nama           : ".$data["nama"]."\n".
+    "📞 Kontak      : ".$data["no_pemesan"]."\n".
+    "🏷️ jumlah Voucher : ".$data["jumlah"]."\n". 
+    "💰 Total          : Rp. ".number_format(str_replace(".00","",$data["total_fare"]))."\n".
+    "📅 Bulan          : ".$data["bulan"]."\n". 
+    // "\n".
+    // "Kode Voucher : ".$data["Trip_Code"]."\n". 
+    // "\n".
+    // "Pick Up : ".$data["Pick_Up"]."\n". 
+    // "( ".$data["Pickup_Date"]." )\n".
+    // "\n".
+    // "Drop Off: ".$data["Drop_Off"]."\n". 
+    // "( ".$data["Dropoff_Date"]." )\n". 
+    // "\n". 
+    // "Total 💳   : Rp. ".number_format(str_replace(".00","",$data["fare"]))."\n".
+    // // "--------------------------------------------------------"."\n";
+    
+    // "--------------------------------------------------------\n".                                       
+    // "Butuh bantuan? --> ketik help \n".                                                
+    // "Ditanya aja Mas.. \n".                                                
+    "--------------------------------------------------------"
+    ;
+       $this->sendMessage($chatId,$text);
+
+    // $chat_api->sendMessage($kontak_pemimpin,$text);
+    endforeach;
+//=========        
+        // $this->sendMessage($chatId,
+    
+        // "📋📋📋📋📋📋📋📋📋📋📋📋📋\n".
+        // // "Nama       :".$nama."  \n".
+        // // "Kontak     :".$no_kontak."  \n".
+        // "INFO Voucher Grab ".$kelompok."  \n".    
+        // "----------------------------------------------"
+        // );
+    
+    }else{
+
+        $this->sendMessage($chatId,😝😝😝😝😝😝😝😝);
+    
+        
+    }
+    
+
+}
+
 
 
 
