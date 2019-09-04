@@ -52,6 +52,11 @@
     case 'reg':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4); break;}
     
     case 'up':     {$this->update_users($message['chatId'],$input1,$input2,$input3,$input4,$input5,$input6); break;}
+    // case 'dev':  {$this->dev($message['chatId']); break;}
+    // case 'prod':  {$this->prod($message['chatId']); break;}
+    // // case 'hook':  {$this->hook($message['chatId']); break;}
+    case 'hook':     {$this->hook($message['chatId'],$input1,$input2,$input3); break;}
+    // case 'hook':  {$this->dev($message['chatId'],$ip,$port); break;}
 
 //dev 07082019
 // case 'report':     {$this->report($message['chatId']); break;}
@@ -114,7 +119,7 @@
     // $welcomeString = ($noWelcome) ? "Upps..Typo bro..\n" : "Hi.. ".$nama."   \n";
     $this->sendMessage($chatId,
     // $welcomeString.
-    "Hii.....😁 ".$nama." \n".
+    "HayyyYY.....😁 ".$nama." \n".
     "".$pesan." \n".
     " \n".
     "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
@@ -210,7 +215,20 @@ $this->sendMessage($chatId,
 }
 
 
+public function hook($chatId,$input1,$input2,$input3){
 
+    switch(mb_strtolower($input2)){
+         case 'now':  {$this->hook_now($chatId,false); break;}
+
+         case 'dev':     {$this->hook_dev($chatId); break;}
+         case 'prod':    {$this->hook_prod($chatId); break;}
+        
+        default:        {
+            $this->welcome($chatId,true); 
+        break;}
+    }
+
+}
 
 //dev 25072019
     public function grab($chatId,$input1,$input2,$input3){
@@ -880,11 +898,102 @@ if($result){
                         $response = file_get_contents($url,false,$options);
                         file_put_contents('requests.log',$response.PHP_EOL,FILE_APPEND);}
 
+                        public function hook_now($chatId){
+                            // public function webhook($webhookUrl){
+                            $webhookUrl = "http://" . $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/chatbotwa-webhook/index.php';                           
+                            // $webhookUrl = "http://35.226.76.184:1111/chatbotwa-webhook/webhook.php";
+                    // print_r($webhookUrl);die();        
+                            // $data = array('webhookUrl'=>$webhookUrl);
+                            // $this->sendRequest('webhook',$data);
+                            // print_r('webhook_dimas running on --->> '.$webhookUrl);
+                            
+                            $text = 
+                            // "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
+                            "--------------------------------------------------------\n".
+                            // $looping1.
+                            "Webhook    : ".$webhookUrl."\n".
+                            // "Tujuan : ".$data["Trip_Description"]."\n". 
+                            "--------------------------------------------------------"
+                            ;
+
+                            $data2 = array('chatId'=>$chatId,'body'=>$text);
+                            $this->sendRequest('message',$data2);                            
+
+                        }
+
+
+                        public function hook_dev($chatId){
+                            // public function webhook($webhookUrl){
+                            // $webhookUrl = "http://" . $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/chatbotwa-webhook/index.php';                           
+                            $webhookUrl = "http://35.226.76.184:1111/chatbotwa-webhook/webhook.php";
+                    // print_r($webhookUrl);die();        
+                            $data = array('webhookUrl'=>$webhookUrl);
+                            $this->sendRequest('webhook',$data);
+                            // print_r('webhook_dimas running on --->> '.$webhookUrl);
+                            
+                            $text = 
+                            // "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
+                            "--------------------------------------------------------\n".
+                            // $looping1.
+                            "Webhook    : ".$webhookUrl."\n".
+                            // "Tujuan : ".$data["Trip_Description"]."\n". 
+                            "--------------------------------------------------------"
+                            ;
+
+                            $data2 = array('chatId'=>$chatId,'body'=>$text);
+                            $this->sendRequest('message',$data2);                            
+
+                        }
+
+                        public function hook_prod($chatId){
+                            // public function webhook($webhookUrl){
+                            // $webhookUrl = "http://" . $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/chatbotwa-webhook/index.php';                           
+                            $webhookUrl = "http://35.193.110.18/chatbotwa-webhook/webhook.php";                                
+                            $data = array('webhookUrl'=>$webhookUrl);
+                            $this->sendRequest('webhook',$data);
+                            // print_r('webhook_dimas running on --->> '.$webhookUrl);
+                            
+                            $text = 
+                            // "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
+                            "--------------------------------------------------------\n".
+                            // $looping1.
+                            "Webhook    : ".$webhookUrl."\n".
+                            // "Tujuan : ".$data["Trip_Description"]."\n". 
+                            "--------------------------------------------------------"
+                            ;
+
+                            $data2 = array('chatId'=>$chatId,'body'=>$text);
+                            $this->sendRequest('message',$data2);                            
+
+                        }                        
+                        // public function hook($chatId,$ip,$port){
+                        //     // public function webhook($webhookUrl){
+                        //         // $webhookUrl = "http://" .$ip.':'.$port.'/chatbotwa-webhook/index.php';                           
+                        //         $webhookUrl = "http://35.193.110.18/chatbotwa-webhook/webhook.php';                           
+                                 
+                        //     $data = array('webhookUrl'=>$webhookUrl);
+                        //     $this->sendRequest('webhook',$data);
+                       
+                            
+                        //     $text = 
+                    
+                        //     "--------------------------------------------------------\n".
+                        //     // $looping1.
+                        //     "Switch webhook to    : ".$webhookUrl."\n".
+                        //     // "Tujuan : ".$data["Trip_Description"]."\n". 
+                        //     "--------------------------------------------------------"
+                        //     ;
+
+                        //     $data2 = array('chatId'=>$chatId,'body'=>$text);
+                        //     $this->sendRequest('message',$data2);                            
+
+                        // }
+
                     }
                         //execute the class when this file is requested by the instance
-                        new whatsAppBot();
+                       $whatsAppBot =  new whatsAppBot();
 
-
-print_r('ready....!!!!');                        
+                        $webhookUrl = "http://" . $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/chatbotwa-webhook/index.php'; 
+                        print_r('webhook_dimas running on --->> '.$webhookUrl);                         
 
 ?>
