@@ -3,9 +3,9 @@
 
 class database {
 	// deklarasi parameter koneksi database
-	private $dbHost     = "35.225.105.181";//"34.67.111.165"; //"bnisln2019.mysql.database.azure.com"; //"png-mysql";
+	private $dbHost     = "mysql";//"35.225.105.181";//"34.67.111.165"; //"bnisln2019.mysql.database.azure.com"; //"png-mysql";
 	private $dbUser     = "root";
-	private $dbPassword = "bnisln2019";
+	private $dbPassword = "nurahmat";//"bnisln2019";
 	private $dbName     = "chatbotwa";
 	
 	public function connect() {
