@@ -1,0 +1,141 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <style>
+            html, BODY {
+                margin: 0px;
+                padding:0px;
+                width:100%;
+                height:100%;
+            }
+            .m_setting_container{
+                display:table;
+                width:100%;
+                height:100%;
+            }
+            .m_setting_area{
+                display:table-cell;
+                vertical-align: middle;
+            }
+            .m_settings_item{
+            }
+            .m_settings_title{
+                color: #a70f31;
+                font-size: 18px;
+                padding: 0px 0px 16px 0px;
+            }
+            .m_settings_row:first-child {
+                border-top: 1px solid #eaeaea;
+            }
+            .m_setting_section {
+                overflow: auto;
+                width: 600px;
+                margin: 0px auto;
+                padding:0px 0px 40px 0px;
+            }
+            .m_setting_section:last-child {
+                padding:0px 0px 0px 0px;
+            }
+            .m_settings_row {
+                width: 100%;
+                border-bottom: 1px solid #eaeaea;
+                height:56px;
+            }
+            .m_settings_table {
+                width: 100%;
+                display: table;
+                overflow: hidden;
+            }
+            .m_settings_cell {
+                width: 100%;
+                display: table-cell;
+                vertical-align: middle;
+                height:56px;
+                padding: 0px 6px 0px 6px;
+            }
+            .m_green {
+                color:#2ecc71;
+            }
+            .m_red {
+                color:#a70f31;
+            }
+
+        </style>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mswitch.js" type="text/javascript"></script>
+        <script>
+        $(document).ready(function(){
+            $(".m_switch_check:checkbox").mSwitch({
+                onRender:function(elem){
+                    var entity = elem.attr("entity");
+                    var label = elem.parent().parent().prev(".m_settings_label");
+                    if (elem.val() == 0){
+                        $.mSwitch.turnOff(elem);
+                        label.html(entity + " <span class=\"m_red\">(Disable)</font>");
+                    }else{
+                        label.html(entity + " <span class=\"m_green\">(Enable)</font>");
+                        $.mSwitch.turnOn(elem);
+                    }
+                },
+                onRendered:function(elem){
+                    console.log(elem);
+                },
+                onTurnOn:function(elem){
+                    alert(elem.val());
+                    var entity = elem.attr("entity");
+                    var label = elem.parent().parent().prev(".m_settings_label");
+                    if (elem.val() == "0"){
+                        elem.val("1");
+                        label.html(entity + " <span class=\"m_green\">(Enable)</font>");
+                    }else{
+                        label.html(entity + " <span class=\"m_red\">(Error)</font>");
+                    }
+                },
+                onTurnOff:function(elem){
+                    var entity = elem.attr("entity");
+                    var label = elem.parent().parent().prev(".m_settings_label");
+                    if (elem.val() == 1){
+                        elem.val("0");
+                        label.html(entity + " <span class=\"m_red\">(Disable)</font>");
+                    }else{
+                        label.html(entity + " <span class=\"m_red\">(Error)</font>");
+                    }
+                }
+            });
+        });
+        </script>
+    </head>
+    <body>
+        <div class="m_setting_container">
+            <div class="m_setting_area">
+                <div class="m_setting_section">
+                    <div class="m_settings_title">mSwitch</div>
+                    <div class="m_settings_item">
+                        <div class="m_settings_row">
+                            <div class="m_settings_table">
+                                <div class="m_settings_cell m_settings_label">
+                                    Test 1
+                                </div>
+                                <div class="m_settings_cell">
+                                    <input type="checkbox" id="switcher" class="m_switch_check" value="0" entity="Test 1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m_settings_row">
+                            <div class="m_settings_table">
+                                <div class="m_settings_cell m_settings_label">
+                                   Test 2
+                                </div>
+                                <div class="m_settings_cell">
+                                    <input type="checkbox" id="switcher" class="m_switch_check" value="0" entity="Test 2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+{
+	"name" : "cicool page form builder",
+	"description" : "cicool form builder page element widged editor",
+	"type" : "page",
+    "version" : "1.0",
+    "author" : "cicool",
+    "regid" : "cicool-page-form-builder",
+	"routes" : [
+		"administrator/page/*"
+	],
+	"loader" : [
+		"config.php"
+	]
+}
