@@ -119,7 +119,7 @@
     // $welcomeString = ($noWelcome) ? "Upps..Typo bro..\n" : "Hi.. ".$nama."   \n";
     $this->sendMessage($chatId,
     // $welcomeString.
-    "HayyyYY.....😁 ".$nama." \n".
+    "Haii.....😁 ".$nama." \n".
     "".$pesan." \n".
     " \n".
     "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
