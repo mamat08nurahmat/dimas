@@ -4,6 +4,38 @@
         /* class order_grab */
         class order_grab {
 
+//dev 08082019
+function all_users() {
+    // memanggil file database.php
+    require_once "config/database.php";
+
+    // membuat objek db dengan nama $db
+    $db = new database();
+
+    // membuka koneksi ke database
+    $mysqli = $db->connect();
+
+    // sql statement untuk mengambil semua data order_grab
+    $sql = "
+    SELECT *
+FROM 
+form_users 
+    ";
+
+    $result = $mysqli->query($sql);
+
+    while ($data = $result->fetch_assoc()) {
+        $hasil[] = $data;
+    }
+
+    // menutup koneksi database
+    $mysqli->close();
+
+    // nilai kembalian dalam bentuk array
+    return $hasil;
+}
+
+
 //dev 03092019
 function grab_info_tim($kelompok) {
     // memanggil file database.php

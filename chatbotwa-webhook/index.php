@@ -157,6 +157,7 @@
 
 //dev 01082019
 public function default($chatId){
+
     date_default_timezone_set('Asia/Jakarta');
     // 24-hour format of an hour without leading zeros (0 through 23)
     $Hour = date('H');
@@ -191,26 +192,26 @@ $this->help($chatId);
 
 
         
-}else{
+}//else{
 //belum terdaftar default
 
-$this->sendMessage($chatId,
-// $welcomeString.
-"Hi..".$pesan." \n".
-"Saya Dimas \n".
-" \n".
-"Anda Belum kenalan dengan saya.. \n".
-"-------------------------------------------------------\n".
-"No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu  \n".
-"ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
-"--------------------------------------------------------\n".                                       
-"Butuh bantuan? --> ketik help \n".                                                
-"Ditanya aja Mas... \n".                                                
-"--------------------------------------------------------"                                      
-);
+// $this->sendMessage($chatId,
+// // $welcomeString.
+// "Hi..".$pesan." \n".
+// "Saya Dimas \n".
+// " \n".
+// "Anda Belum kenalan dengan saya.. \n".
+// "-------------------------------------------------------\n".
+// "No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu  \n".
+// "ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
+// "--------------------------------------------------------\n".                                       
+// "Butuh bantuan? --> ketik help \n".                                                
+// "Ditanya aja Mas... \n".                                                
+// "--------------------------------------------------------"                                      
+// );
 
 
-}
+// }
 
 }
 
