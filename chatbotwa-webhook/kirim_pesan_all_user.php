@@ -58,12 +58,12 @@ if(isset($all_users)){
     $text = 
     // "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
     "--------------------------------------------------------\n".
-    "PEMBERITAHUAN\n".
-    "--------------------------------------------------------\n".
-    "Selamat Sore...\n".
-    "Dimas Dalam Proses Pemuliahan...🤒🤒🤒\n".
-    "Untuk 2 Hari kedepan Proses Pemesanan voucher grab bisa lewat no ini ...\n".
-    "+6287711086938 ...\n".
+    // "PEMBERITAHUAN\n".
+    // "--------------------------------------------------------\n".
+    "Selamat Pagi...\n".
+    "Dimas sudah sehat kembali...😎😎😎😎\n".
+    "Proses Pemesanan voucher grab bisa lewat saya lagi ...\n".
+    "+6281932477899\n".
     "".
     "Terimakasih...\n".
     "--------------------------------------------------------\n".                                       

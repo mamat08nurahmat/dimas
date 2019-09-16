@@ -2,112 +2,119 @@
 
 class kirim_stiker{
 
-    function siap($no_kontak){
-        $url_luffy = "http://" . $_SERVER['SERVER_NAME'] .':'. $_SERVER['SERVER_PORT'].'/mugiwara.png';
-        $data = [
-            // 'phone' => "6281973480077", // Receivers phone
-            'phone' => $no_kontak, // Receivers phone
-        
-            // 'body' => "https://media.giphy.com/media/apEtaOFjF9dCRy4BxV/giphy.gif", // Receivers phone
-            'body' => $url_luffy, // Receivers phone
-            
-            'filename' => "luffy.png", // Receivers phone
-            // 'caption' => "Masuk_Pa_Eko" // Receivers phone
 
-        ];
-        $json = json_encode($data); // Encode data to JSON
-        // URL for request POST /message
-        $url = 'https://api.chat-api.com/instance53244/sendFile?token=oedqhd1jfewd5io0';
-        // Make a POST request
+    var $APIurl = 'https://api.chat-api.com/instance53243/';
+    var $token = '6o15kym7hd1sqk49';
+
+    public function sendRequest($method,$data){
+        $url = $this->APIurl.$method.'?token='.$this->token;
+        if(is_array($data)){ $data = json_encode($data);}
         $options = stream_context_create(['http' => [
-                'method'  => 'POST',
-                'header'  => 'Content-type: application/json',
-                'content' => $json
-            ]
-        ]);
-        // Send a request
-        $result = file_get_contents($url, false, $options);
+        'method'  => 'POST',
+        'header'  => 'Content-type: application/json',
+        'content' => $data]]);
+        $response = file_get_contents($url,false,$options);
+        // file_put_contents('requests.log',$response.PHP_EOL,FILE_APPEND);
+    
+    }
 
+    public function sendMessage($phone, $text){
+                              
+        $data = array('phone'=>$phone,'body'=>$text);
+        $this->sendRequest('message',$data);
+    }
 
+    public function sendFile($phone, $file_url,$file_name,$caption){
+                              
+        $data = array('phone'=>$phone,'body'=>$file_url,'filename'=>$file_name,'caption'=>$caption);
+        $this->sendRequest('sendFile',$data);
     }
 
 }
 
 //dev 0208019 kirim stiker
 // require_once 'kirim_stiker.php';
-// $kirim_stiker = new kirim_stiker();
-//     // $nama='XYZ';
-//     // $kontak='6287711086938';
-// // $no_kontak=str_replace('@c.us','',$chatId);
-// $no_kontak='6287711086938';
-// $res = $kirim_stiker->siap($no_kontak);
+        $kirim_stiker = new kirim_stiker();
+        // $phone='6287711086938';
+        // $file_url = "http://" . $_SERVER['SERVER_NAME'] .':'. $_SERVER['SERVER_PORT'].'/mugiwara.png';
+        // $file_name='mugiwara.png';
+        // $caption='Zzzzzz...';
+        // $res = $kirim_stiker->sendFile($phone, $file_url,$file_name,$caption);
+        // print_r($res);die();
 
 
-/*
-$kontak = array(
-    6287711086938//,6281574518623,62818760046
+//========================welcome
+date_default_timezone_set('Asia/Jakarta');
+// 24-hour format of an hour without leading zeros (0 through 23)
+$Hour = date('H');
+
+if ( $Hour >= 5 && $Hour <= 10 ) {
+    $pesan= "Semangat Pagi..🌅🌅🌅 ";
+} else if ( $Hour >= 11 && $Hour <= 15 ) {
+    $pesan= "Selamat Siang..☀️☀️☀️";
+} else if ( $Hour >= 16 && $Hour <= 18 ) {
+    $pesan= "Selamat Sore..🌇🌇🌇";
+} else {
+    $pesan= "Selamat Malam..🌜🌜🌜";
+}
+
+require_once 'users.php';
+$users = new users();
+// $nama='XYZ';
+$kontak='6287711086938';
+// $kontak=str_replace('@c.us','',$chatId);
+$res = $users->get_detail($kontak);
+$nama=$res[0]['nama'];
+
+$res1 = $users->get_pemimpin($kontak);
+$kontak_pemimpin =$res1[0]['kontak'];
+$nama_pemimpin =$res1[0]['nama'];
+$kelompok =$res1[0]['kelompok'];
+
+$res5 = $users->get_users($kontak);
+$ada_kontak = count($res5['kontak']);
+// $res6 = $users->get_kelompok(strtoupper($input3));
+// $ada_kelompok = count($res6['kelompok']);
+
+if($ada_kontak>0){
+
+// $welcomeString = ($noWelcome) ? "Upps..Typo bro..\n" : "Hi.. ".$nama."   \n";
+$kirim_stiker->sendMessage($kontak,
+// $welcomeString.
+"Haiiyy.....😁 ".$nama." \n".
+"".$pesan." \n".
+" \n".
+"Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
+"Dengan No 📱 ".$kontak." \n".
+"-------------------------------------------------------\n".
+"Untuk melakukan pemesan Voucher Grab 🏎️🏎️🏎️\n".
+"ketik GRAB <spasi> ORDER \n".    
+"--------------------------------------------------------\n".                                       
+"Butuh bantuan? --> ketik help \n".                                                
+"Ditanya aja Mas..🙏🙏🙏 \n".                                                
+"--------------------------------------------------------"
+                                  
+);
+}else{
+
+$kirim_stiker->sendMessage($kontak,
+// $welcomeString.
+"Hi..".$pesan." \n".
+"Saya Dimas \n".
+" \n".
+"Anda Belum kenalan dengan saya.. \n".
+"-------------------------------------------------------\n".
+"No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu  \n".
+"ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
+"--------------------------------------------------------\n".                                       
+"Butuh bantuan? --> ketik help \n".                                                
+"Ditanya aja Mas...🙏🙏🙏  \n".                                                
+"--------------------------------------------------------"                                      
 );
 
-foreach ($kontak as $value) {
-    
-    $data = [
-        // 'phone' => "6281973480077", // Receivers phone
-        'phone' => $value, // Receivers phone
-        
-        'body' => "http://34.85.53.9:1111/icon.webp", // Receivers phone
-        'filename' => "icon.webp", // Receivers phone
-        'caption' => "Masuk_Pa_Eko" // Receivers phone
-        // 'body' => $pesan, // Message
-];
-$json = json_encode($data); // Encode data to JSON
-// URL for request POST /message
-$url = 'https://api.chat-api.com/instance53244/sendFile?token=oedqhd1jfewd5io0';
-// Make a POST request
-$options = stream_context_create(['http' => [
-    'method'  => 'POST',
-    'header'  => 'Content-type: application/json',
-    'content' => $json
-    ]
-    ]);
-    // Send a request
-    $result = file_get_contents($url, false, $options);
-    
+
 }
-*/
 
-// print_r($kontak);
-// die();
-
-
-
-
-
-
-
-//  $this->sendMessage($data['kontak'].'@c.us',
-    
-//  // "KETIK UP<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU<spasi>[1/2]<spasi>62111111111 \n".                                               
-//  // "KETIK GRAB<spasi>STOK \n".                                               
-//  "--------------------------------------------------------\n".                                       
-//  "".$pesan."  \n".
-//  "--------------------------------------------------------\n".                                       
-//  "Voucher Grab Telah Tersedia \n".
-//  "Fitur GRAB ORDER sudah dapat digunakan  \n".
-//  "\n".
-//  "Thanks  \n".
-//  "Dimas  \n".
-//  "--------------------------------------------------------".
-//  "Butuh bantuan? --> ketik help \n".      
-//  "Ditanya aja Mas \n".      
-//  "--------------------------------------------------------"
-//  );
-
-
-    // }
-
-// die();
-
-
-
+//========================        
 //print_r('OK');die();
 ?>

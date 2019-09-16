@@ -1,10 +1,6 @@
 <?php
     class whatsAppBot{
     //specify instance URL and token
-    // var $APIurl = 'https://api.chat-api.com/instance53244/';
-    // var $token = 'oedqhd1jfewd5io0';
-// https://eu19.chat-api.com/instance53243/ and token 6o15kym7hd1sqk49
-    // https://eu19.chat-api.com/instance53243/ and token 6o15kym7hd1sqk49
     var $APIurl = 'https://api.chat-api.com/instance53243/';
     var $token = '6o15kym7hd1sqk49';
 
@@ -48,29 +44,11 @@
     case 'move':     {$this->update_pemimpin($message['chatId'],$input1,$input2,$input3); break;}
     case 'update':     {$this->update_kelompok($message['chatId'],$input1,$input2,$input3); break;}
     case 'grab':     {$this->grab($message['chatId'],$input1,$input2,$input3); break;}
-    // case 'insert#users':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4,$input5); break;}
-    case 'reg':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4); break;}
-    
+
+    case 'reg':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4); break;}    
     case 'up':     {$this->update_users($message['chatId'],$input1,$input2,$input3,$input4,$input5,$input6); break;}
-    // case 'dev':  {$this->dev($message['chatId']); break;}
-    // case 'prod':  {$this->prod($message['chatId']); break;}
-    // // case 'hook':  {$this->hook($message['chatId']); break;}
     case 'hook':     {$this->hook($message['chatId'],$input1,$input2,$input3); break;}
-    // case 'hook':  {$this->dev($message['chatId'],$ip,$port); break;}
 
-//dev 07082019
-// case 'report':     {$this->report($message['chatId']); break;}
-    
-    
-
-
-    //REG NAMA KELOMPOK
-    // case 'view#users':     {$this->users_kelompok($message['chatId'],$input1,$input2); break;}
-    // case 'grab#order':     {$this->grab_order($message['chatId']); break;}
-    // case 'cek#stok':     {$this->cek_stok($message['chatId']); break;}
-    // case 'me':     {$this->me($message['chatId'],$message['senderName']); break;}
-        // case 'order':     {$this->order($message['chatId'],$message['senderName']); break;}
-        // case 'order':     {$this->order($message['chatId']); break;}
     default:        {$this->default($message['chatId']); break;}
         }
         
@@ -81,146 +59,58 @@
     //this function calls function sendRequest to send a simple message
     //@param $chatId [string] [required] - the ID of chat where we send a message
     //@param $text [string] [required] - text of the message
-    public function welcome($chatId, $noWelcome = false){
-        date_default_timezone_set('Asia/Jakarta');
-        // 24-hour format of an hour without leading zeros (0 through 23)
-        $Hour = date('H');
-        
-        if ( $Hour >= 5 && $Hour <= 10 ) {
-            $pesan= "Semangat Pagi..🌅🌅🌅 ";
-        } else if ( $Hour >= 11 && $Hour <= 15 ) {
-            $pesan= "Selamat Siang..☀️☀️☀️";
-        } else if ( $Hour >= 16 && $Hour <= 18 ) {
-            $pesan= "Selamat Sore..🌇🌇🌇";
-        } else {
-            $pesan= "Selamat Malam..🌜🌜🌜";
-        }
 
-    require_once 'users.php';
-    $users = new users();
-        // $nama='XYZ';
+    public function help($chatId){
+
+        require_once 'api.php';
+        $api = new api();
         // $kontak='6287711086938';
-    $kontak=str_replace('@c.us','',$chatId);
-    $res = $users->get_detail($kontak);
-    $nama=$res[0]['nama'];
-
-    $res1 = $users->get_pemimpin($kontak);
-    $kontak_pemimpin =$res1[0]['kontak'];
-    $nama_pemimpin =$res1[0]['nama'];
-    $kelompok =$res1[0]['kelompok'];
-    
-    $res5 = $users->get_users($kontak);
-    $ada_kontak = count($res5['kontak']);
-    // $res6 = $users->get_kelompok(strtoupper($input3));
-    // $ada_kelompok = count($res6['kelompok']);
-    
-    if($ada_kontak>0){
-
-    // $welcomeString = ($noWelcome) ? "Upps..Typo bro..\n" : "Hi.. ".$nama."   \n";
-    $this->sendMessage($chatId,
-    // $welcomeString.
-    "Haii.....😁 ".$nama." \n".
-    "".$pesan." \n".
-    " \n".
-    "Anda Terdaftar dalam kelompok ".strtoupper($kelompok)." \n".
-    "Dengan No 📱 ".$kontak." \n".
-    "-------------------------------------------------------\n".
-    "Untuk melakukan pemesan Voucher Grab 🏎️🏎️🏎️\n".
-    "ketik GRAB <spasi> ORDER \n".    
-    "--------------------------------------------------------\n".                                       
-    "Butuh bantuan? --> ketik help \n".                                                
-    "Ditanya aja Mas..🙏🙏🙏 \n".                                                
-    "--------------------------------------------------------"
-                                          
-    );
-    }else{
-
-        $this->sendMessage($chatId,
-        // $welcomeString.
-        "Hi..".$pesan." \n".
-        "Saya Dimas \n".
-        " \n".
-        "Anda Belum kenalan dengan saya.. \n".
-        "-------------------------------------------------------\n".
-        "No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu  \n".
-        "ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
-        "--------------------------------------------------------\n".                                       
-        "Butuh bantuan? --> ketik help \n".                                                
-        "Ditanya aja Mas...🙏🙏🙏  \n".                                                
-        "--------------------------------------------------------"                                      
-        );
+        $kontak=str_replace('@c.us','',$chatId);
+        $api->help($kontak);   
         
+        }
+    
 
-    }
+    public function welcome($chatId, $noWelcome = false){
+        require_once 'api.php';
+        $api = new api();
+        // $kontak='6287711086938';
+        $kontak=str_replace('@c.us','',$chatId);
+        $api->welcome($kontak);     
 
     }
 
 //dev 01082019
-public function default($chatId){
+    public function default($chatId){
 
-    date_default_timezone_set('Asia/Jakarta');
-    // 24-hour format of an hour without leading zeros (0 through 23)
-    $Hour = date('H');
+        require_once 'users.php';
+        $users = new users();
+        $no_kontak=str_replace('@c.us','',$chatId);
+        $res5 = $users->get_users($no_kontak);
+        $ada_kontak = count($res5['kontak']);
     
-    if ( $Hour >= 5 && $Hour <= 10 ) {
-        $pesan= "Semangat Pagi..!!!";
-    } else if ( $Hour >= 11 && $Hour <= 15 ) {
-        $pesan= "Selamat Siang";
-    } else if ( $Hour >= 16 || $Hour <= 18 ) {
-        $pesan= "Selamat Sore";
-    } else if ( $Hour >= 19 || $Hour <= 4 ) {
-        $pesan= "Selamat Malam";
-    }
+        // $res6 = $users->get_kelompok(strtoupper($input3));
+        // $ada_kelompok = count($res6['kelompok']);
+    
+        if($ada_kontak>0){
+            $this->help($chatId);
+        }else{
 
-require_once 'users.php';
-$users = new users();
-    // $nama='XYZ';
+     require_once 'api.php';
+     $api = new api();
     // $kontak='6287711086938';
-$no_kontak=str_replace('@c.us','',$chatId);
-$res = $users->get_detail($kontak);
-$nama=$res[0]['nama'];
+     $kontak=str_replace('@c.us','',$chatId);
+     $api->kirim_stiker_mugiwara($kontak);   
 
+        }        
 
-$res5 = $users->get_users($no_kontak);
-$ada_kontak = count($res5['kontak']);
-
-if($ada_kontak>0 ){
-
-
-//dev14082019
-$this->help($chatId);
-
-
-        
-}//else{
-//belum terdaftar default
-
-// $this->sendMessage($chatId,
-// // $welcomeString.
-// "Hi..".$pesan." \n".
-// "Saya Dimas \n".
-// " \n".
-// "Anda Belum kenalan dengan saya.. \n".
-// "-------------------------------------------------------\n".
-// "No Anda Belum terdaftar silahkan Registrasi Terlebih dahulu  \n".
-// "ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
-// "--------------------------------------------------------\n".                                       
-// "Butuh bantuan? --> ketik help \n".                                                
-// "Ditanya aja Mas... \n".                                                
-// "--------------------------------------------------------"                                      
-// );
-
-
-// }
-
-}
+    }
 
 
 public function hook($chatId,$input1,$input2,$input3){
 
     switch(mb_strtolower($input2)){
-         case 'now':  {$this->hook_now($chatId,false); break;}
-
+         case 'now':     {$this->hook_now($chatId,false); break;}  
          case 'dev':     {$this->hook_dev($chatId); break;}
          case 'prod':    {$this->hook_prod($chatId); break;}
         
@@ -297,54 +187,6 @@ public function hook($chatId,$input1,$input2,$input3){
 
 
 
-public function help($chatId){
-    
-    $this->sendMessage($chatId,
-    
-    // "KETIK UP<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU<spasi>[1/2]<spasi>62111111111 \n".                                               
-    // "KETIK GRAB<spasi>STOK \n".                                               
-    "😎😎😎😎😎😎😎😎😎😎😎\n".                                       
-    "#untuk order voucher grab  \n".
-    "ketik GRAB<spasi>ORDER   \n".
-    "--------------------------------------------------------\n".                                       
-    "#untuk info order voucher grab  \n".
-    "ketik GRAB <spasi> INFO   \n".
-    "--------------------------------------------------------\n".                                       
-    "#untuk registrasi user  \n".
-    "ketik REG <spasi> NAMA <spasi> KELOMPOK \n".                                               
-    "--> contoh  \n".                                               
-    "REG TOPENG SPO  \n".                                               
-    "--------------------------------------------------------\n".                                       
-    "#untuk update kelompok  \n".
-    "ketik UPDATE <spasi> KELOMPOK <spasi> KELOMPOK_BARU \n".                                               
-    "--> contoh  \n".                                               
-    "UPDATE KELOMPOK DSS  \n".                                               
-    "--------------------------------------------------------\n".                                       
-    "#untuk update pemimpin  \n".
-    "ketik MOVE <spasi> PEMIMPIN <spasi> NO_PEMIMPIN_BARU \n".                                               
-    "--> contoh  \n".                                               
-    "MOVE PEMIMPIN 628123456789  \n".        
-    "-------------------------------------------------------- \n".                                           
-    "Keterangan Kelompok \n".
-    "-------------------------------------------------------- \n".                                           
-    "DSS  = DIRECT SALES \n".
-    "TSS  = TELE SALES \n".
-    "SUP  = SUPPORT \n".
-    "BCS1 = BISNIS CORPORATE SALES 1 \n".
-    "BCS2 = BISNIS CORPORATE SALES 2 \n".
-    "BCS3 = BISNIS CORPORATE SALES 3 \n".
-    "BCS4 = BISNIS CORPORATE SALES 4 \n".
-    "SMN  = SALES MANAGEMENT \n".
-    "SPO  = SALES PLANNING \n".
-    "SCO  = SALES COMPANY \n".
-    "SGV  = SALES GOVERMENT \n".
-    "OBM  = OPTIMALISASI BISNIS MERCHANT \n".
-    "-------------------------------------------------------- \n".                                       
-    "Kirim ke Saya di 6281932477899 \n".
-    "--------------------------------------------------------"
-    );
-    
-    }
 
 
     
