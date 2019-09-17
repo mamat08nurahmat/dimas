@@ -297,7 +297,7 @@ function detail_belum_terpakai($no_kontak_pemesan) {
     $mysqli = $db->connect();
 
     // sql statement untuk mengambil semua data order_grab
-    $sql = "
+    $sql = "   
     select 
     a.no_pemesan
     ,b.nama
@@ -308,7 +308,8 @@ function detail_belum_terpakai($no_kontak_pemesan) {
      left join form_users b ON a.no_pemesan=b.kontak
      left join form_kode_grab c ON a.id_kode_grab=c.id
      left join grab_report r ON c.kode_grab=r.Trip_code
-    where a.no_pemesan='$no_kontak_pemesan' AND r.Trip_code IS NULL    
+    where a.no_pemesan='$no_kontak_pemesan' AND r.Trip_code IS NULL AND MONTH(c.active)=MONTH(NOW())   
+
     ";
 
     $result = $mysqli->query($sql);
