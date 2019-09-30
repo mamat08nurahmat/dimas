@@ -241,34 +241,7 @@ function get_all_kelompok($kelompok) {
     return $hasil;
 }
 
-//====================================================            
-            /* method untuk menampilkan data users */
-            function view() {
-                // memanggil file database.php
-                require_once "config/database.php";
-        
-                // membuat objek db dengan nama $db
-                $db = new database();
-        
-                // membuka koneksi ke database
-                $mysqli = $db->connect();
-        
-                // sql statement untuk mengambil semua data users
-                $sql = "SELECT * FROM db_users ORDER BY nis DESC";
-        
-                $result = $mysqli->query($sql);
-        
-                while ($data = $result->fetch_assoc()) {
-                    $hasil[] = $data;
-                }
-        
-                // menutup koneksi database
-                $mysqli->close();
-        
-                // nilai kembalian dalam bentuk array
-                return $hasil;
-            }
-        
+
             /* Method untuk menyimpan data ke tabel users */
             function insert($nama,$kontak,$kelompok,$level) {
                 // $level=2; //non pemimpin
@@ -349,68 +322,9 @@ function get_all_kelompok($kelompok) {
                 // nilai kembalian dalam bentuk array
                 return $data;
             }
-            
+//====================================================            
 
-            /* Method untuk mengubah data pada tabel users */
-            function update($nama_update,$kontak_update,$kelompok_update,$level_update,$where_kontak_update) {
-                // memanggil file database.php
-                require_once "config/database.php";
-        
-                // membuat objek db dengan nama $db
-                $db = new database();
-        
-                // membuka koneksi ke database
-                $mysqli = $db->connect();
-        
-                // $nama         = $mysqli->real_escape_string($nama);
-                // $tempat_lahir = $mysqli->real_escape_string($tempat_lahir);
-                // $alamat       = $mysqli->real_escape_string($alamat);
-        
-                // sql statement untuk update data users
-                $sql = "UPDATE form_users SET nama    = '$nama_update',
-                                            kontak    = '$kontak_update',
-                                            kelompok  = '$kelompok_update',
-                                            level     = '$level_update'
-                                      WHERE kontak    = '$where_kontak_update'"; 
-        
-                $result = $mysqli->query($sql);
-        
-        
-                // menutup koneksi database
-                $mysqli->close();
 
-                return $result;
-            }
-            
-            /* Method untuk menghapus data pada tabel users */
-            function delete($nis) {
-                // memanggil file database.php
-                require_once "config/database.php";
-        
-                // membuat objek db dengan nama $db
-                $db = new database();
-        
-                // membuka koneksi ke database
-                $mysqli = $db->connect();
-        
-                // sql statement untuk delete data users
-                $sql = "DELETE FROM db_users WHERE nis = '$nis'";
-        
-                $result = $mysqli->query($sql);
-        
-                // cek hasil query
-                if($result){
-                    /* jika data berhasil disimpan alihkan ke halaman users dan tampilkan pesan = 4 */
-                    header("Location: index.php?alert=4");
-                }
-                else{
-                    /* jika data gagal disimpan alihkan ke halaman users dan tampilkan pesan = 1 */
-                    header("Location: index.php?alert=1");
-                }
-        
-                // menutup koneksi database
-                $mysqli->close();
-            }
         }
         ?>
         

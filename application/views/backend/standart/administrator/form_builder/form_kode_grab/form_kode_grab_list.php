@@ -1,4 +1,42 @@
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form method="post" action="<?= BASE_URL.'administrator/tes' ?>">
+         <div class="form-group">
+            <label>Kode Grab</label>
+            <input name="_kode_grab" type="text" class="" >
+         </div>
+         <div class="form-group">
+            <label>Expired Date</label>
+            <input name="_expired_date" type="date" class="" >
+         </div>
+         <div class="form-group">
+            <label>Active Date</label>
+            <input name="_active_date" type="date" class="" >
+         </div>
+         </div>
+         <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary">Save changes</button>
+         </div>
+         </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 <script src="<?= BASE_ASSET; ?>/js/jquery.hotkeys.js"></script>
 
 <script type="text/javascript">
@@ -52,9 +90,15 @@ jQuery(document).ready(domo);
                   <!-- Add the bg color to the header using any of the bg-* classes -->
                   <div class="widget-user-header ">
                      <div class="row pull-right">
-                        <?php is_allowed('form_kode_grab_export', function(){?>
-                        <a class="btn btn-flat btn-success" title="<?= cclang('export', 'Form Kode Grab'); ?>" href="<?= site_url('administrator/form_kode_grab/export'); ?>"><i class="fa fa-file-excel-o" ></i> <?= cclang('export'); ?></a>
-                        <?php }) ?>
+                        <div class="col-md-12">
+                           <?php is_allowed('form_kode_grab_export', function(){?>
+                           <a class="btn btn-flat btn-success" title="<?= cclang('export', 'Form Kode Grab'); ?>" href="<?= site_url('administrator/form_kode_grab/export'); ?>"><i class="fa fa-file-excel-o" ></i> <?= cclang('export'); ?></a>
+                           <?php }) ?>
+                           <!-- <a href="#" class="btn btn-flat btn-success">Import</a> -->
+                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                           Import
+                           </button>
+                        </div>
                      </div>
                      <div class="widget-user-image">
                         <img class="img-circle" src="<?= BASE_ASSET; ?>/img/list.png" alt="User Avatar">

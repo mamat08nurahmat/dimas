@@ -135,7 +135,7 @@ public function hook($chatId,$input1,$input2,$input3){
     // $ada_kelompok = count($res6['kelompok']);
 
     if($ada_kontak>0){
-
+        //GRAB <SPASI> ????
         switch(mb_strtolower($input2)){
             //  case 'hi':  {$this->welcome($chatId,false); break;}
 
