@@ -249,10 +249,11 @@ $detail_kode_grab = $order_grab->detail_belum_terpakai($kontak_pengirim);
     if($belum_terpakai>=5){
       
 
-//pesan ke pengirim 
+// pesan ke pengirim 
 $this->sendMessage($chatId_pengirim,
 
 "-------------------------------------------------\n".
+"Silahkan gunakan voucher yang belum terpakai\n".
 "Request By     :".$nama_pengirim."  \n".
 "Kelompok       :".$kelompok_pengirim."  \n".
 "🏎️🏎️🏎️🏎️🏎️🏎️🏎️\n".
@@ -267,14 +268,6 @@ $this->sendMessage($chatId_pengirim,
     );            
 
     }
-
-
-
-
-
-
-    
-
         
     }else{
 
@@ -294,7 +287,7 @@ $this->sendMessage($chatId_pengirim,
 
 //kirim kode yang udah diorder
     foreach($detail_kode_grab as $data){
-        $this->sendMessage($chatId_pengirim,   
+        $this->sendMessage($chatId_pemimpin,   
         $data['kode_grab']
     );            
 
@@ -303,8 +296,8 @@ $this->sendMessage($chatId_pengirim,
     $this->sendMessage($chatId_pengirim,
     $kode_grab);    
 
-// //pesan ke pemimpin
-//?? jika level dgm / gm
+//pesan ke pemimpin
+// ?? jika level dgm / gm
 $this->sendMessage($chatId_pemimpin,
 
 "-------------------------------------------------\n".

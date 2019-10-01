@@ -72,7 +72,7 @@ foreach($belum_notif as $data):
     "Drop Off: ".$data["Drop_Off"]."\n". 
     "( ".$data["Dropoff_Date"]." )\n". 
     "\n". 
-    "Total 💳   : Rp. ".number_format(str_replace(".00","",$data["fare"]))."\n".
+    "Total 💳   : Rp. ".number_format(str_replace(".00","",$data["Fare"]))."\n".
     // "--------------------------------------------------------"."\n";
     "--------------------------------------------------------\n".                                       
     "Butuh bantuan? --> ketik help \n".                                                

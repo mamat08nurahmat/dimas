@@ -264,12 +264,16 @@ function belum_notif_order() {
     $mysqli = $db->connect();
 
     // sql statement untuk mengambil semua data order_grab
-    $sql = "
-    SELECT *
-FROM 
-vw_report_sudah_terpakai 
-where is_notif=0
-    ";
+//    $sql = "SELECT * FROM vw_report_sudah_terpakai where is_notif=0 ";
+  
+$sql = "
+select * from form_order_grab o
+left join form_kode_grab k on o.id_kode_grab=k.id
+left join grab_report r on k.kode_grab=r.Trip_Code
+where month(k.active)=month(now()) and k.is_used=1
+and o.is_approved=0 
+AND r.Trip_Code IS NOT NULL
+";
 
     $result = $mysqli->query($sql);
 
@@ -297,19 +301,32 @@ function detail_belum_terpakai($no_kontak_pemesan) {
     $mysqli = $db->connect();
 
     // sql statement untuk mengambil semua data order_grab
+    // $sql = "   
+    // select 
+    // a.no_pemesan
+    // ,b.nama
+    // ,b.kelompok
+    // ,c.kode_grab
+    // ,c.expired
+    // FROM chatbotwa.form_order_grab a
+    //  left join form_users b ON a.no_pemesan=b.kontak
+    //  left join form_kode_grab c ON a.id_kode_grab=c.id
+    //  left join grab_report r ON c.kode_grab=r.Trip_code
+    // where a.no_pemesan='$no_kontak_pemesan' AND r.Trip_code IS NULL AND MONTH(c.active)=MONTH(NOW())   
+
+    // ";
     $sql = "   
     select 
-    a.no_pemesan
-    ,b.nama
-    ,b.kelompok
-    ,c.kode_grab
-    ,c.expired
-    FROM chatbotwa.form_order_grab a
-     left join form_users b ON a.no_pemesan=b.kontak
-     left join form_kode_grab c ON a.id_kode_grab=c.id
-     left join grab_report r ON c.kode_grab=r.Trip_code
-    where a.no_pemesan='$no_kontak_pemesan' AND r.Trip_code IS NULL AND MONTH(c.active)=MONTH(NOW())   
-
+    *
+        FROM chatbotwa.form_order_grab a
+         left join form_users b ON a.no_pemesan=b.kontak
+         left join form_kode_grab c ON a.id_kode_grab=c.id
+         left join grab_report r ON c.kode_grab=r.Trip_code
+        where a.no_pemesan='$no_kontak_pemesan' 
+    
+    AND a.is_approved=0
+    -- AND r.Trip_code IS NULL 
+    AND MONTH(c.active)=MONTH(NOW()) 
     ";
 
     $result = $mysqli->query($sql);
@@ -339,14 +356,27 @@ function cek_belum_terpakai($no_kontak_pemesan) {
     $mysqli = $db->connect();
 
     // sql statement untuk mengambil semua data order_grab
+    // $sql = "
+    // select count(*) as belum_terpakai
+    // FROM chatbotwa.form_order_grab a
+    //  left join form_users b ON a.no_pemesan=b.kontak
+    //  left join form_kode_grab c ON a.id_kode_grab=c.id
+    //  left join grab_report r ON c.kode_grab=r.Trip_code
+    // where a.no_pemesan='$no_kontak_pemesan' AND r.Trip_code IS NULL    
+    // ";
+
     $sql = "
     select count(*) as belum_terpakai
+-- select *
     FROM chatbotwa.form_order_grab a
      left join form_users b ON a.no_pemesan=b.kontak
      left join form_kode_grab c ON a.id_kode_grab=c.id
      left join grab_report r ON c.kode_grab=r.Trip_code
-    where a.no_pemesan='$no_kontak_pemesan' AND r.Trip_code IS NULL    
-    ";
+    where a.no_pemesan='$no_kontak_pemesan' 
+AND a.is_approved=0
+-- AND r.Trip_code IS NULL 
+AND month(c.active)=month(now())
+";
 
     $result = $mysqli->query($sql);
 

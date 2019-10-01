@@ -380,20 +380,20 @@ public function help($chatId){
     "-------------------------------------------------------- \n".                                       
     "Kirim ke Saya di 6281932477899 \n".
     "--------------------------------------------------------"
-    );
-    
-    }
+);
 
-    // public function report($chatId){
+}
+
+// public function report($chatId){
     
     //     $this->sendMessage($chatId,
-        
+    
     //     // "KETIK UP<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU<spasi>[1/2]<spasi>62111111111 \n".                                               
     //     // "KETIK GRAB<spasi>STOK \n".                                               
-                                         
+    
     //     'http://34.85.53.9:1111/report.php' 
     //     );
-        
+    
     //     }
     
 
@@ -439,51 +439,94 @@ public function help($chatId){
 
     $chatId_pemimpin=$kontak_pemimpin.'@c.us';    
     // // $nomer_tujuan_pemesan=$no_kontak_pemesan.'@c.us'; 
+    //CEK VOCHER YG TIDAK TERPAKAI
+$cek = $order_grab->cek_belum_terpakai($kontak_pengirim);
+$belum_terpakai = $cek[0]['belum_terpakai'];
+$detail_kode_grab = $order_grab->detail_belum_terpakai($kontak_pengirim);
+// $belum_terpakai = $cek[0]['kode_grab'];
     
+
+
+//if($belum_terpakai>5){}else{}
     // PROSES ORDER
-    $res3 = $order_grab->insert($kontak_pengirim,$kontak_pemimpin,$id_kode_grab);
+    
+    
+    
+    if($belum_terpakai>=5){
+      
 
-    // PROSES UPDATE kode_grab
-    $res4 = $grab->update($id_kode_grab);
-    //pesan ke pengirim 
+// pesan ke pengirim 
+$this->sendMessage($chatId_pengirim,
+
+"-------------------------------------------------\n".
+"Silahkan gunakan voucher yang belum terpakai\n".
+"Request By     :".$nama_pengirim."  \n".
+"Kelompok       :".$kelompok_pengirim."  \n".
+"🏎️🏎️🏎️🏎️🏎️🏎️🏎️\n".
+"----------------------------------------------------"
+);
+
+
+    foreach($detail_kode_grab as $data){
+        $this->sendMessage($chatId_pengirim,   
+        $data['kode_grab']
+
+    );            
+
+    }
+        
+    }else{
+
+$res3 = $order_grab->insert($kontak_pengirim,$kontak_pemimpin,$id_kode_grab);        
+// PROSES UPDATE kode_grab
+$res4 = $grab->update($id_kode_grab);
+//pesan ke pengirim 
+$this->sendMessage($chatId_pengirim,
+
+"-------------------------------------------------\n".
+"Request By    :".$nama_pengirim."  \n".
+// "Nama           :".$nama_pengirim."  \n".
+"Kelompok       :".$kelompok_pengirim."  \n".
+"🏎️🏎️🏎️🏎️🏎️🏎️🏎️\n".
+"----------------------------------------------------"
+);
+
+//kirim kode yang taerbaru
     $this->sendMessage($chatId_pengirim,
+    $kode_grab);    
 
-    "-------------------------------------------------\n".
-    "Request By    :".$kontak_pengirim."  \n".
-    // "Nama           :".$nama_pengirim."  \n".
-    "Kelompok       :".$kelompok_pengirim."  \n".
-    // "No             :".$kontak_pemimpin."  \n".
-    // "Nama Pemimpin  :".$nama_pemimpin."  \n".
-    "-------------------------------------------------- \n".
-    "Kode Grab      :".$kode_grab."  \n".
-    "Expired        :".$expired."  \n".
-    // "QTY      :".$input3."  \n".
-    // "".$id_kode_grab."  \n".
-    "----------------------------------------------------"
-    );
-    // //pesan ke pemimpin
-    //?? jika level dgm / gm
-    $this->sendMessage($chatId_pemimpin,
 
-    "-------------------------------------------------\n".
-    "Request By    :".$kontak_pengirim."  \n".
-    "Nama           :".$nama_pengirim."  \n".
-    "Kelompok       :".$kelompok_pengirim."  \n".
-    // "No Pemimpin    :".$kontak_pemimpin."  \n".
-    // "Nama Pemimpin  :".$nama_pemimpin."  \n".
-    "-------------------------------------------------- \n".
-    "Kode Grab      :".$kode_grab."  \n".
-    "Expired        :".$expired."  \n".
-    // "QTY      :".$input3."  \n".
-    // "".$id_kode_grab."  \n".
-    "----------------------------------------------------"
-    );
 
+//kirim kode yang udah diorder
+foreach($detail_kode_grab as $data){
+    $this->sendMessage($chatId_pengirim,   
+    $data['kode_grab']
+);            
+
+}
+
+//pesan ke pemimpin
+// ?? jika level dgm / gm
+
+
+// $this->sendMessage($chatId_pemimpin,
+// "-------------------------------------------------\n".
+// "Request By    :".$kontak_pengirim."  \n".
+// "Nama           :".$nama_pengirim."  \n".
+// "Kelompok       :".$kelompok_pengirim."  \n".
+// "🏎️🏎️🏎️🏎️🏎️🏎️🏎️\n".
+// "-------------------------------------------------- \n".
+// "Kode Grab      :".$kode_grab."  \n".
+// "----------------------------------------------------"
+// );    
+    
+    // print_r('OK');
+    
+    }
 
  }
-                                
 
-    public function cek_stok($chatId){
+public function cek_stok($chatId){
         
         require_once 'kode_grab.php';
         $kode_grab = new kode_grab();
