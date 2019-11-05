@@ -15,7 +15,7 @@ class Form_kode_grab extends Admin
 	public function __construct()
 	{
 		parent::__construct();
-
+		$this->load->library('excel');
 		$this->load->model('model_form_kode_grab');
 	}
 
@@ -27,21 +27,23 @@ class Form_kode_grab extends Admin
 	public function index($offset = 0)
 	{
 		$this->is_allowed('form_kode_grab_list');
-
+ 
 		$filter = $this->input->get('q');
 		$field 	= $this->input->get('f');
 
 		$this->data['form_kode_grabs'] = $this->model_form_kode_grab->get($filter, $field, $this->limit_page, $offset);
 		$this->data['form_kode_grab_counts'] = $this->model_form_kode_grab->count_all($filter, $field);
-
+ 
 		$config = [
 			'base_url'     => 'administrator/form_kode_grab/index/',
 			'total_rows'   => $this->model_form_kode_grab->count_all($filter, $field),
 			'per_page'     => $this->limit_page,
 			'uri_segment'  => 4,
 		];
-
+		
+		$month=date("m");
 		$this->data['pagination'] = $this->pagination($config);
+		$this->data['avaiable']   = $this->db->get_where('form_kode_grab',['is_used'=>0,'month(active)'=>$month])->num_rows();
 
 		$this->template->title('Kode Grab List');
 		$this->render('backend/standart/administrator/form_builder/form_kode_grab/form_kode_grab_list', $this->data);
@@ -198,6 +200,80 @@ class Form_kode_grab extends Admin
 
 		$this->model_form_kode_grab->export('form_kode_grab', 'form_kode_grab');
 	}
+
+	public function tes()
+	{
+		echo 'op';
+	}
+// IMPORT KODE --------------------------------------------------------------------------------------------------------
+public function tambahkode()
+{
+	$this->render('backend/standart/administrator/form_builder/form_kode_grab/vtambahkode');
+}
+public function import()
+	{
+		if(isset($_FILES["file"]["name"]))
+		{
+			$path = $_FILES["file"]["tmp_name"];
+			$object = PHPExcel_IOFactory::load($path);
+			foreach($object->getWorksheetIterator() as $worksheet)
+			{
+				$highestRow = $worksheet->getHighestRow();
+				$highestColumn = $worksheet->getHighestColumn();
+				for($row=11; $row<=$highestRow; $row++)
+				{
+                    $kode_grab  = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+                    $expired    = $this->input->post('_expired',true);
+                    $active     = $this->input->post('_active',true);
+					$data[]     = array(
+						'kode_grab'	=>	$kode_grab,
+						'expired'	=>	$expired,
+						'is_used'	=>	'0',
+						'used_at'	=>	'2999-12-31',
+                        'timestamp'	=>	'0000-00-00',
+                        'active'    =>  $active
+					);
+				}
+			}
+			foreach($data as $kode){
+				$kode_gr[]=$kode['kode_grab'];
+			}
+			$kode_cek=['kode'=>$kode_gr];
+			foreach($kode_cek as $i){
+				$mydata[]=$i;
+			}
+			foreach($mydata as $a){
+				$yourdata[]=$a;
+			}
+			
+
+			$this->db->where_in('kode_grab',$a);
+			$query 		= $this->db->get('form_kode_grab');
+
+
+			foreach($query->result_array() as $data_sama){
+					$abc[] = $data_sama['kode_grab'] ;	
+				}
+
+				
+				
+			if($query->num_rows()>0){
+				$same_date=json_encode($abc);
+				$this->session->set_flashdata('message','<div class="alert alert-danger text-center">
+				<h5>GAGAL ! beberapa kode berikut sama ');
+				$this->session->set_flashdata('message2',$same_date);
+				$this->session->set_flashdata('message3','</h5></div>');
+				redirect(base_url('administrator/form_kode_grab'));
+			}else{
+				$this->session->set_flashdata('message','<div class="alert alert-info text-center">
+				<h5>Data Sukses Ditambahkan</h5>  
+				</div>');
+				$this->db->insert_batch('form_kode_grab', $data);
+				redirect(base_url('administrator/form_kode_grab'));
+			}
+		}
+    }
+// IMPORT KODE --------------------------------------------------------------------------------------------------------
 }
 
 

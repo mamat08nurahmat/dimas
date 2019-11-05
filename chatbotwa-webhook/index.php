@@ -39,15 +39,15 @@
     $input6 = mb_strtolower($text[5], 'UTF-8');
     $input7 = mb_strtolower($text[6], 'UTF-8');
     switch($input1){
-    case 'hi':  {$this->welcome($message['chatId'],false); break;}
-    case 'help':     {$this->help($message['chatId']); break;}
-    case 'move':     {$this->update_pemimpin($message['chatId'],$input1,$input2,$input3); break;}
-    case 'update':     {$this->update_kelompok($message['chatId'],$input1,$input2,$input3); break;}
-    case 'grab':     {$this->grab($message['chatId'],$input1,$input2,$input3); break;}
+    case 'hi':      {$this->welcome($message['chatId'],false); break;}
+    case 'help':    {$this->help($message['chatId']); break;}
+    case 'move':    {$this->update_pemimpin($message['chatId'],$input1,$input2,$input3); break;}
+    case 'update':  {$this->update_kelompok($message['chatId'],$input1,$input2,$input3); break;}
+    case 'grab':    {$this->grab($message['chatId'],$input1,$input2,$input3); break;}
 
     case 'reg':     {$this->insert_users($message['chatId'],$input1,$input2,$input3,$input4); break;}    
-    case 'up':     {$this->update_users($message['chatId'],$input1,$input2,$input3,$input4,$input5,$input6); break;}
-    case 'hook':     {$this->hook($message['chatId'],$input1,$input2,$input3); break;}
+    case 'up':      {$this->update_users($message['chatId'],$input1,$input2,$input3,$input4,$input5,$input6); break;}
+    case 'hook':    {$this->hook($message['chatId'],$input1,$input2,$input3); break;}
 
     default:        {$this->default($message['chatId']); break;}
         }

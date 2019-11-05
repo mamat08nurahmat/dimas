@@ -128,7 +128,7 @@ public function help($kontak){
     // "KETIK UP<spasi>NAMA_BARU<spasi>NO_BARU<spasi>KELOMPOK_BARU<spasi>[1/2]<spasi>62111111111 \n".                                               
     // "KETIK GRAB<spasi>STOK \n".                                               
     "😎😎😎💬💬💬💬💬💬\n".                                       
-    "#untuk order voucher grab  \n".
+    "#untuk orDAS voucher grab  \n".
     "ketik GRAB<spasi>ORDER   \n".
     "--------------------------------------------------------\n".                                       
     "#untuk info order voucher grab  \n".

@@ -30,9 +30,11 @@
   <link rel="stylesheet" href="<?= BASE_ASSET; ?>datetimepicker/jquery.datetimepicker.css"/>
   <link rel="stylesheet" href="<?= BASE_ASSET; ?>js-scroll/style/jquery.jscrollpane.css" rel="stylesheet" media="all" />
   <link rel="stylesheet" href="<?= BASE_ASSET; ?>flag-icon/css/flag-icon.css" rel="stylesheet" media="all" />
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <?= $this->cc_html->getCssFileTop(); ?>
-
+  <script type="text/javascript" src="<?= base_url('asset/chart/chart.js')?>"></script>
+  <script src="<?php echo base_url('asset/bootstrap/jquery-3.3.1.slim.min.js')?>" type="text/javascript"></script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -184,5 +186,14 @@
 <script src="<?= BASE_ASSET; ?>js-scroll/script/jquery.jscrollpane.min.js"></script>
 <script src="<?= BASE_ASSET; ?>jquery-switch-button/jquery.switchButton.js"></script>
 <script src="<?= BASE_ASSET; ?>/js/custom.js"></script>
+<script src="<?php echo base_url('asset/bootstrap/popper.min.js')?>" type="text/javascript"></script>
+<script src="<?php echo base_url('asset/bootstrap/bootstrap.js')?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?= base_url('asset/datatables/datatables.js') ?>"></script>
+
+  <script>
+  	$(document).ready( function () {
+  		$('#myTable').DataTable();
+  	} );
+  </script>
 </body>
 </html>
